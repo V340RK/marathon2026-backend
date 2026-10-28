@@ -1,0 +1,56 @@
+<app-modal title="Edit Reservation" (closed)="onClose()">
+  <p class="subtitle">
+    {{ locationName() }} · Table {{ table().tableNumber }} · {{ date() | date: 'MMM d, y' }}
+  </p>
+
+  <div class="row">
+    <div class="field field-time">
+      <span class="field-label">Time</span>
+      <app-custom-select
+        [showIcon]="false"
+        [placeholder]="'Choose time'"
+        [options]="timeOptions()"
+        [selectedOption]="selectedTimeOption()"
+        (optionSelected)="onStartSelected($event)"
+      />
+    </div>
+
+    <div class="field field-guests">
+      <span class="field-label">Guests</span>
+      <app-custom-number
+        [showIcon]="false"
+        [minValue]="1"
+        [maxValue]="table().capacity"
+        [currentValue]="selectedGuests()"
+        (currentValueChange)="onGuestsChange($event)"
+      />
+    </div>
+  </div>
+
+  <div class="field">
+    <span class="field-label">How long would you like to stay?</span>
+    <app-custom-select
+      class="duration-select"
+      [showIcon]="false"
+      [placeholder]="'Choose duration'"
+      [options]="durationOptions"
+      [selectedOption]="selectedDurationOption()"
+      (optionSelected)="onDurationSelected($event)"
+    />
+  </div>
+
+  <p class="note">
+    Need more time or want to make changes?<br />
+    Give us a call at +123 445 678 8990.
+  </p>
+
+  <div modal-actions class="actions">
+    <button
+      type="button"
+      class="button button--primary button--extra-large button--full-width save-btn"
+      (click)="onSave()"
+    >
+      Save Changes
+    </button>
+  </div>
+</app-modal>

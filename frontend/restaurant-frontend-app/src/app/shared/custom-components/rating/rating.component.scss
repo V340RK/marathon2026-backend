@@ -1,0 +1,17 @@
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 2rem;
+}
+
+.star {
+  cursor: pointer;
+  border: none;
+  transition: color 0.3s;
+}
+
+.label {
+  font-weight: bold;
+  margin-left: 1rem;
+}

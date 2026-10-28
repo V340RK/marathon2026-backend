@@ -1,0 +1,33 @@
+<div class="table-card">
+  <div class="image-wrapper"></div>
+
+  <div class="card-content">
+    <div class="card-header">
+      <span class="table-number">Table {{ table().tableNumber }}</span>
+      <span class="capacity">Up to {{ table().capacity }} guests</span>
+    </div>
+
+    <span class="location-name">{{ location() }}</span>
+
+    <div class="time-slots">
+      @for (slot of hourSlots(); track $index) {
+        <app-time-slot
+          class="time-slot compact"
+          [label]="slot.label"
+          [disabled]="!slot.timeRange"
+          (click)="onTimeSlotSelected(slot)"
+        >
+        </app-time-slot>
+      }
+
+      <!--
+      @if (table && table.timeRanges.length > 5) {
+        <button class="button button--secondary  button--small" (click)="onShowAllClick()">
+          <img src="/assets/svg/plus-green.svg" alt="Show All" class="icon" />
+          Show all
+        </button>
+      }
+      -->
+    </div>
+  </div>
+</div>

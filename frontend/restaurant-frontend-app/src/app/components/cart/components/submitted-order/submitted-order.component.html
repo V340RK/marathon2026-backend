@@ -1,0 +1,69 @@
+<div class="submitted-order-item">
+  <div class="text">
+    <span class="body-bold">
+      Pre-order #{{ order().orderId }}
+      ({{ order().reservationAddress }}, {{ order().reservationTime }})
+    </span>
+
+    @for (item of order().orderItems; track item.dish.id) {
+    <div class="order-item">
+      <span class="body">
+    {{ item.quantity }}× {{ item.dish.name }}
+
+    @switch (item.state) {
+    @case (0) {
+    <span class="body status-pending">
+      (Pending)
+    </span>
+    }
+
+    @case (1) {
+    <span class="body status-confirmed">
+      (Confirmed)
+    </span>
+    }
+
+    @case (2) {
+    <span class="body status-rejected">
+      (Rejected)
+    </span>
+    }
+
+    @default {
+    <span class="body status-unknown">
+      (Unknown)
+    </span>
+    }
+    }
+    </span>
+
+    <span class="body-bold">
+    {{ item.dish.price * item.quantity | currency }}
+    </span>
+  </div>
+    }
+
+    <div class="order-item">
+      <span class="body">Total price</span>
+      <h3>{{ totalPrice() | currency }}</h3>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button
+      type="button"
+      class="button button--secondary button--large"
+      (click)="cancelOrder()"
+    >
+      Cancel Pre-order
+    </button>
+
+    <button
+      type="button"
+      class="button button--primary button--large"
+      (click)="editOrder()"
+    >
+      Edit Pre-order
+    </button>
+  </div>
+</div>

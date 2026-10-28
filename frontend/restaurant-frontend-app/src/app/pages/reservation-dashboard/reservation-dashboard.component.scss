@@ -1,0 +1,63 @@
+@use 'app/shared/styles/abstracts/colors' as color;
+
+.subheading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 2rem;
+
+  background-color: color.$bg-green;
+
+  @media (max-width: 540px) {
+    padding: 1rem;
+  }
+}
+
+.reservation-list {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+      minmax(17.5rem, 30%)
+  );
+  grid-auto-rows: 1fr;
+  justify-content: center;
+  gap: 2rem;
+
+  padding: 1.5rem;
+
+  list-style: none;
+
+  @media (max-width: 1150px) {
+    grid-template-columns: repeat(
+      auto-fill,
+        minmax(17.5rem, 100%)
+    );
+
+    gap: 1rem;
+  }
+}
+
+.reservation-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  margin-top: 2rem;
+  padding: 1.5rem;
+
+  color: color.$neutral-900;
+  font-size: 1.25rem;
+  text-align: center;
+
+  img {
+    width: 135px;
+    height: 135px;
+
+    @media (max-width: 540px) {
+      width: 88px;
+      height: 88px;
+    }
+  }
+}

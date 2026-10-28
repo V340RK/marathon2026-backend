@@ -1,0 +1,77 @@
+<div
+  class="modal-backdrop"
+  tabindex="0"
+  role="button"
+  aria-label="Close submitted pre-order dialog"
+  (click)="closeModal()"
+  (keydown.enter)="closeModal()"
+  (keydown.space)="closeModal(); $event.preventDefault()"
+>
+  <div
+    class="modal-container"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="submitted-order-title"
+    (click)="$event.stopPropagation()"
+    (keydown)="$event.stopPropagation()"
+  >
+    <div class="modal-header">
+      <h2 id="submitted-order-title">
+        Pre-order Submitted!
+      </h2>
+
+      <button
+        type="button"
+        class="icon-button icon-button--small"
+        aria-label="Close dialog"
+        (click)="closeModal()"
+      >
+        <img
+          src="assets/svg/close.svg"
+          alt=""
+          aria-hidden="true"
+        />
+      </button>
+    </div>
+
+    <p class="body">
+      Your pre-order for the reservation
+      <strong>{{ order().reservationAddress }}</strong>,
+      <strong>{{ order().reservationTime }}</strong>
+      has been successfully submitted.
+    </p>
+
+    <p class="body">
+      We are checking the availability of your dish, and
+      you will receive confirmation soon.
+    </p>
+
+    <p class="body">
+      You can modify or cancel your pre-order up to
+      <strong>30 minutes</strong> before your reserved table
+      time.
+    </p>
+
+    <p class="body">
+      Thank you for choosing us!
+    </p>
+
+    <div class="actions">
+      <button
+        type="button"
+        class="button button--secondary button--large"
+        (click)="cancelOrder()"
+      >
+        Cancel Pre-order
+      </button>
+
+      <button
+        type="button"
+        class="button button--primary button--large"
+        (click)="editOrder()"
+      >
+        Edit Pre-order
+      </button>
+    </div>
+  </div>
+</div>

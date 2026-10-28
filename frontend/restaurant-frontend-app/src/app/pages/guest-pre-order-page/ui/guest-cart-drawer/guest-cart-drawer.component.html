@@ -1,0 +1,78 @@
+@if (open()) {
+    <div class="backdrop">
+        <button type="button" class="backdrop-dismiss" (click)="closed.emit()" aria-label="Close cart"></button>
+        <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="guest-cart-title">
+            <div class="header">
+                <h3 id="guest-cart-title">Cart</h3>
+                <button type="button" class="icon-button icon-button--small close" (click)="closed.emit()" aria-label="Close cart">
+                    <img src="assets/svg/close.svg" alt="" aria-hidden="true" />
+                </button>
+            </div>
+
+            @if (items().length === 0) {
+                <div class="empty">
+                    <img src="assets/svg/cart-empty-preorder.svg" alt="" aria-hidden="true" />
+                    <h3 class="empty-title">Your cart is empty</h3>
+                    <span class="empty-text">Looks like you haven't added any dishes to your cart yet</span>
+                    <button type="button" class="button button--tertiary button--small go" (click)="goToMenu.emit()">Go to Menu</button>
+                </div>
+            } @else {
+                <div class="list">
+                    @for (it of items(); track it.dishId) {
+                        <div class="item">
+                            <img class="img" [src]="it.imageUrl" alt="" />
+
+                            <div class="info">
+                                <div class="name">{{ it.title }}</div>
+                                <div class="sub">Expected ready time - 10 minutes</div>
+
+                                <div class="qty">
+                                    <button type="button" class="qty-btn" [disabled]="busy()" (click)="dec.emit(it.dishId)" aria-label="Decrease quantity">
+                                        -
+                                    </button>
+                                    <span class="qty-value">{{ it.qty }}</span>
+                                    <button type="button" class="qty-btn" [disabled]="busy()" (click)="inc.emit(it.dishId)" aria-label="Increase quantity">
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="actions">
+                                <button 
+                                    type="button"
+                                    class="trash"
+                                    [disabled]="busy()"
+                                    (click)="remove.emit(it.dishId)"
+                                    aria-label="Remove item"
+                                >
+                                    <img src="assets/svg/trash.svg" alt="" />
+                            </button>
+
+                            <div class="price">{{ it.price | currency: '$' }}</div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="footer">
+                    @if (error()) {
+                        <p class="cart-error" role="alert">{{ error() }}</p>
+                    }
+                    <div class="total">
+                        <span class="total-label">Grand Total</span>
+                        <span class="total-value">{{ total() | currency: '$' }}</span>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="submit"
+                        [disabled]="items().length === 0 || busy()"
+                        (click)="submitted.emit()"
+                    >
+                    {{ busy() ? 'Please wait...' : 'Submit Pre-Order' }}
+                    </button>
+                </div>
+            }
+        </aside>
+    </div>
+}

@@ -1,0 +1,75 @@
+<form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="title">Sign In to Your Account</div>
+
+    @if (isAccountLocked()) {
+        <div class="banner-error">
+            Your account is temporarily locked due to multiple failed login attemps. Please try again in 5 minutes.
+        </div>
+    }
+
+    <label class="field">
+        <div class="label">Email</div>
+        <input
+            class="input"
+            type="text"
+            formControlName="email"
+            placeholder="e.g. username@domain.com"
+            [class.input-error]="email()?.invalid && (email()?.touched || email()?.dirty)"
+        />
+
+        @if (email()?.errors?.['required'] && (email()?.touched || email()?.dirty)) {
+            <div class="field-error">
+                Email address is required. Please enter your email to continue.
+            </div>
+        }
+    </label>
+
+    <label class="field">
+        <div class="label">Password</div>
+
+        <div class="password-wrapper">
+            <input
+                class="input"
+                [type]="showPassword() ? 'text' : 'password'"
+                formControlName="password"
+                [class.input-error]="
+                    (password()?.errors?.['required'] && (password()?.touched || password()?.dirty)) ||
+                    unsuccessfulLogin()
+                "
+            />
+
+            <button
+                type="button"
+                class="eye-btn"
+                (click)="togglePassword()"
+                aria-label="Toggle password visibility"
+            >
+                <img
+                    [src]="showPassword() ? 'assets/svg/eye_closed.svg' : 'assets/svg/eye.svg'"
+                    alt=""
+                />
+            </button>
+        </div>
+
+        @if (password()?.errors?.['required'] && (password()?.touched || password()?.dirty)) {
+            <div class="field-error">
+                Password is required. Please enter your password to continue.
+            </div>
+        } @else if (unsuccessfulLogin()) {
+            <div class="field-error">
+                Incorrect email or password. Try again or create an account.
+            </div>
+        }
+
+        <a class="forgot-link" href="#" (click)="$event.preventDefault()">Forgot password?</a>
+    </label>
+
+    <app-custom-button class="submit" type="submit" fullWidth [disabled]="loginForm.invalid || isLoading()">
+        Sign In
+    </app-custom-button>
+
+    <div class="bottom">
+        <span>Don't have an account?</span>
+        <a class="link" routerLink="/signup">Create an Account</a>
+    </div>
+</form>

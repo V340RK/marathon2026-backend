@@ -1,0 +1,71 @@
+<div
+  class="custom-select"
+  [class.error]="error()"
+  [attr.aria-invalid]="error() ? true : null"
+  role="button"
+  tabindex="0"
+  aria-haspopup="listbox"
+  [attr.aria-expanded]="dropdownOpen()"
+  (click)="toggleDropdown()"
+  (keydown.enter)="$event.preventDefault(); toggleDropdown()"
+  (keydown.space)="$event.preventDefault(); toggleDropdown()"
+>
+  <div class="selected-value">
+    <div class="selected-text">
+      @if (showIcon()) {
+        <img
+          [src]="iconPath()"
+          alt=""
+          aria-hidden="true"
+          class="icon"
+        />
+      }
+
+      <span [class.placeholder]="!selectedOption()">{{ displayText() }}</span>
+    </div>
+
+    @if (trailingIconPath()) {
+      <img [src]="trailingIconPath()" alt="" aria-hidden="true" class="trailing-icon" />
+    } @else {
+      <img
+        [src]="
+          dropdownOpen()
+            ? 'assets/svg/arrow-up.svg'
+            : 'assets/svg/arrow-down.svg'
+        "
+        alt=""
+        aria-hidden="true"
+      />
+    }
+  </div>
+
+  @if (dropdownOpen()) {
+    <ul class="dropdown" role="listbox">
+      @for (option of options(); track getOptionValue(option)) {
+        <li
+          role="option"
+          tabindex="0"
+          [class.selected]="isOptionSelected(option)"
+          [attr.aria-selected]="isOptionSelected(option)"
+          (click)="$event.stopPropagation(); selectOption(option)"
+          (keydown.space)="
+            $event.preventDefault();
+            $event.stopPropagation();
+            selectOption(option)
+          "
+          (keydown.enter)="
+            $event.preventDefault();
+            $event.stopPropagation();
+            selectOption(option)
+          "
+        >
+          {{ getOptionText(option) }}
+        </li>
+      }
+    </ul>
+  }
+</div>
+
+@if (error()) {
+  <span class="error-message" role="alert">{{ error() }}</span>
+}

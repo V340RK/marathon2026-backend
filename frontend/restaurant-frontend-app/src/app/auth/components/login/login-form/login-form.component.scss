@@ -1,0 +1,116 @@
+@use 'app/shared/styles/abstracts/colors' as color;
+
+.form { display: flex;
+        flex-direction: column;
+        gap: 24px; }
+
+.title {
+    font-size: 26px;
+    line-height: 28px;
+    font-weight: 500;
+    color: color.$neutral-900;
+    margin-bottom: 8px;
+}
+
+.banner-error {
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: color.$red-100;
+    font-size: 14px;
+    line-height: 40px;
+}
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+
+.label {
+    font-size: 12px;
+    line-height: 16px;
+    color: color.$neutral-900;
+    font-weight: 500;
+}
+
+.input {
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid color.$neutral-200;
+    padding: 0 12px;
+    font-size: 14px;
+    color: color.$neutral-900;
+    outline: none;
+
+    &::placeholder { color: color.$neutral-400; }
+
+    &:focus-visible {
+        outline: none;
+        border-color: color.$orange-400;
+    }
+}
+
+.input-error { border-color: color.$red-400 !important; }
+
+.field-error {
+    color: color.$red-400;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-wrapper .input {
+  width: 100%;
+  padding-right: 44px;
+  box-sizing: border-box;
+}
+
+.eye-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+
+    img { width: 18px; height: 18px; }
+}
+
+.forgot-link {
+    align-self: flex-end;
+    font-size: 14px;
+    line-height: 16px;
+    color: color.$blue-500;
+    font-weight: 600;
+    text-decoration:underline;
+
+    &:hover { text-decoration:none; }
+}
+
+.submit { 
+    margin-top: 8px;
+}
+
+.bottom {
+    display: flex;
+    gap: 6px;
+    font-size: 12px;
+    line-height: 16px;
+    color: color.$neutral-600;
+}
+
+.link {
+    color: color.$blue-500;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: underline;
+
+    &:hover { text-decoration: none; }
+}
+
+@media (max-width: 540px) {
+  .form { gap: 16px; }
+  .title { font-size: 20px; }
+}

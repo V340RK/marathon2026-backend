@@ -1,0 +1,144 @@
+.image-container {
+  position: relative;
+  background: url('/assets/img/tables-page-image.jpg') center center no-repeat;
+  background-size: cover;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  padding: 99px 40px;
+  gap: 22px;
+}
+@media (max-width: 460px) {
+  .image-container {
+    padding: 2rem 1rem;
+  }
+}
+.image-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(35, 30, 34, 0.8);
+  z-index: 1;
+}
+.image-container > * {
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 390px) {
+  .restaurants-name {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+
+.filtration-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.filtration {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.filter {
+  width: 220px;
+}
+@media (max-width: 460px) {
+  .filter {
+    width: 100%;
+  }
+}
+
+.location-filter {
+  width: 400px;
+}
+@media (max-width: 460px) {
+  .location-filter {
+    width: 100%;
+  }
+}
+
+.guests-filter {
+  width: 255px;
+}
+@media (max-width: 460px) {
+  .guests-filter {
+    width: 100%;
+  }
+}
+
+.find-button {
+  display: flex;
+  width: 200px;
+  min-height: 56px;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 8px 16px;
+  border: none;
+  background: #00ad0c;
+  cursor: pointer;
+}
+@media (max-width: 460px) {
+  .find-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 460px) {
+  .restaurants-name {
+    padding: auto 0;
+  }
+}
+
+.table-card-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 32px;
+  background: #ffffff;
+}
+
+.table-card-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+
+.body-bold {
+  font-size: 14px;
+  letter-spacing: 0;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+h2 {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 40px;
+  letter-spacing: 0;
+  vertical-align: middle;
+  color: #00ad0c;
+}
+
+h1 {
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 48px;
+  letter-spacing: 0;
+  vertical-align: middle;
+  color: #00ad0c;
+}
+@media (max-width: 390px) {
+  h1 {
+    font-size: 2rem;
+    line-height: 2.5rem;
+  }
+} /*# sourceMappingURL=tables.component.css.map */

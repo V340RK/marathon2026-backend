@@ -1,0 +1,29 @@
+{
+  "version": "1.0",
+  "name": "report-sender",
+  "func_name": "ReportSender::ReportSender.Function::FunctionHandler",
+  "resource_type": "lambda",
+  "iam_role_name": "report-sender-role",
+  "runtime": "dotnet10",
+  "memory": 128,
+  "timeout": 100,
+  "lambda_path": "lambdas/report-sender",
+  "dependencies": [],
+  "event_sources": [],
+  "env_variables": {
+    "EmailFrom": "${email_from}",
+    "Region": "${region}",
+    "LocationTableName": "${locations-table}",
+    "ReportTableName": "${reports_table_name}",
+    "CognitoUserPoolId": {
+      "resource_name": "${user_pool_name}",
+      "resource_type": "cognito_idp",
+      "parameter": "id"
+    }
+  },
+  "publish_version": true,
+  "alias": "${lambdas_alias_name}",
+  "url_config": {},
+  "ephemeral_storage": 512,
+  "tags": {}
+}

@@ -1,0 +1,94 @@
+<app-header />
+
+<div class="subheading">
+  <h3>
+    Hello, {{ firstName() }} {{ lastName() }}
+    ({{ role() }})
+  </h3>
+</div>
+
+@if (!reservationsLoaded()) {
+  <p class="reservation-empty">
+    Please wait while we load your reservations.
+  </p>
+} @else if (reservations().length > 0) {
+  <ul class="reservation-list">
+    @for (reservation of reservations(); track reservation.id) {
+      <app-card-reservation
+        [r]="reservation"
+        [role]="role()"
+        [statusEnum]="statusEnum"
+        (cancelReservation)="cancelReservation($event)"
+        (editReservation)="openEditModal($event)"
+        (leaveFeedbackReservation)="openFeedback($event)"
+        (updateFeedbackReservation)="openFeedback($event)"
+      />
+    }
+  </ul>
+} @else {
+  <div class="reservation-empty">
+    <img
+      src="assets/svg/empty-reservations.svg"
+      alt=""
+      aria-hidden="true"
+    />
+
+    <p>It looks like you don't have any reservations.</p>
+
+    <a
+      class="button button--primary button--large"
+      routerLink="/tables"
+    >
+      Book a table
+    </a>
+  </div>
+}
+
+@if (
+  showEditReservationModal() &&
+  selectedReservation() &&
+  selectedTable() &&
+  selectedTimeRange()
+  ) {
+  <app-make-reservation
+    title="Edit Reservation"
+    [table]="selectedTable()!"
+    [guests]="selectedReservation()!.guestCount"
+    [selectedTimeRange]="selectedTimeRange()!"
+    [locationName]="selectedReservation()!.locationAddress"
+    (makeReservation)="
+      onSubmitEditReservation(
+        $event.timeRange,
+        $event.guests
+      )
+    "
+    (closeModal)="closeEditReservationModal()"
+  />
+}
+
+@if (
+  showEditReservationConfirmed() &&
+  selectedReservationAsReservation()
+  ) {
+  <app-reservation-confirmed
+    [reservation]="selectedReservationAsReservation()!"
+    (closed)="closeReservationConfirmed()"
+    (editReservation)="editConfirmedReservation()"
+    (cancelReservation)="cancelConfirmedReservation()"
+  />
+}
+
+@if (
+  showFeedbackModal() &&
+  selectedReservation() &&
+  selectedReservationAsReservation()
+  ) {
+  <app-feedback-window
+    [feedbackForUpdate]="selectedReservation()!.feedback"
+    [selectedReservation]="
+      selectedReservationAsReservation()!
+    "
+    (feedbackUpdated)="onFeedbackUpdated($event)"
+    (closedFeedback)="closeFeedback()"
+  />
+}

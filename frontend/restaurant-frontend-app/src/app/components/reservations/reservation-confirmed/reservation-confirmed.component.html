@@ -1,0 +1,116 @@
+<div
+  class="modal-backdrop"
+  role="presentation"
+  (click)="onBackdropClick($event)"
+  (keydown.escape)="onClose()"
+>
+  <section
+    class="confirmed-wrapper"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="reservation-confirmed-title"
+  >
+    <div class="header-confirmed">
+      <h2
+        id="reservation-confirmed-title"
+        class="confirmed-title"
+      >
+        Reservation Confirmed!
+      </h2>
+
+      <button
+        type="button"
+        class="icon-button icon-button--small"
+        aria-label="Close reservation confirmation"
+        (click)="onClose()"
+      >
+        <img
+          src="assets/svg/close.svg"
+          alt=""
+          aria-hidden="true"
+          width="24"
+          height="24"
+        />
+      </button>
+    </div>
+
+    <div class="reservation-info">
+      <p>
+        Your table reservation at
+
+        <strong class="bold-text">
+          {{ reservation().restaurantName }}
+        </strong>
+
+        for
+
+        <strong class="bold-text">
+          {{ reservation().guestCount }} people
+        </strong>
+
+        on
+
+        <strong class="bold-text">
+          {{ reservation().startTime | date: 'MMM d, y' }}
+        </strong>,
+
+        from
+
+        <strong class="bold-text">
+          {{ reservation().startTime | date: 'shortTime' }}
+        </strong>
+
+        to
+
+        <strong class="bold-text">
+          {{ reservation().endTime | date: 'shortTime' }}
+        </strong>
+
+        at
+
+        <strong class="bold-text">
+          Table {{ reservation().tableId }}
+        </strong>
+
+        has been successfully made.
+      </p>
+
+      <p
+        [class.cancelled-text]="
+          reservation().status === ReservationStatus.Cancelled
+        "
+      >
+        We look forward to welcoming you at
+
+        <strong class="bold-text">
+          {{ reservation().locationAddress }}
+        </strong>.
+      </p>
+
+      <p>
+        If you need to modify or cancel your reservation, you
+        can do so up to 30 minutes before the reservation time.
+      </p>
+    </div>
+
+    <div class="confirmed-buttons">
+      <app-custom-button
+        type="button"
+        variant="secondary"
+        size="large"
+        (click)="onCancel()"
+      >
+        Cancel Reservation
+      </app-custom-button>
+
+      <app-custom-button
+        type="button"
+        variant="primary"
+        size="large"
+        (click)="onEdit()"
+      >
+        Edit Reservation
+      </app-custom-button>
+    </div>
+  </section>
+</div>

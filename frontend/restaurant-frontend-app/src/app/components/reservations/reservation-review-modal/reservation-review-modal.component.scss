@@ -1,0 +1,50 @@
+@use 'app/shared/styles/abstracts/colors' as color;
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 24px;
+  color: color.$neutral-900;
+}
+
+.info-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  dt {
+    flex-shrink: 0;
+    width: 80px;
+    font-weight: 500;
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 400;
+  }
+}
+
+.note {
+  margin: 0;
+  padding: 12px;
+  font-size: 14px;
+  line-height: 24px;
+  color: color.$neutral-900;
+  background: rgba(color.$green-100, 0.6);
+  border: 1px solid color.$green-150;
+  border-radius: 8px;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.confirm-btn {
+  flex: 1;
+  min-width: 0;
+}

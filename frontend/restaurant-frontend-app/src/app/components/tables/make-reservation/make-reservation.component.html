@@ -1,0 +1,72 @@
+<div class="modal-backdrop" role="presentation" (click)="onClose()">
+  <div class="modal-container" role="presentation" (click)="$event.stopPropagation()">
+    <div>
+      <div class="modal-header">
+        <h2 class="title">{{ title }}</h2>
+        <button class="close-btn" (click)="onClose()">
+          <img src="assets/svg/close.svg" alt="close button" />
+        </button>
+      </div>
+
+      <p class="subtitle">
+        You are making a reservation at
+        <span class="body-bold">{{ locationName }}, Table {{ table.tableNumber }}</span>
+        for <span class="body-bold">{{ selectedTimeRange.start | date: 'MMM d, y' }}</span
+        >.
+      </p>
+    </div>
+
+    <div class="reservation-details">
+      <div class="reservation-guests">
+        <div>
+          <h3>Guests</h3>
+          <p class="subtitle">Please specify the number of guests.</p>
+          <p class="subtitle">Table seating capacity: {{ table.capacity }} people</p>
+        </div>
+
+        <app-custom-number
+          class="guests-filter"
+          [currentValue]="guests"
+          [iconPath]="'assets/svg/people-green.svg'"
+          [placeholder]="'Guests'"
+          [minValue]="1"
+          [maxValue]="table.capacity"
+          (currentValueChange)="onGuestsChange($event)"
+        />
+      </div>
+
+      <div class="reservation-time">
+        <div>
+          <h3>Time</h3>
+          <p class="subtitle">Please choose your preferred time from the dropdowns below</p>
+        </div>
+
+        <div class="time-selectors">
+          <div class="time-selector">
+            <p class="body-bold">From</p>
+            <app-custom-select
+              [selectedOption]="selectStartTime()"
+              [iconPath]="'assets/svg/clock-green.svg'"
+              [placeholder]="'From'"
+              [options]="startTimeOptions()"
+              (optionSelected)="onStartTimeChange($event)"
+            />
+          </div>
+
+          <div class="time-selector">
+            <p class="body-bold">To</p>
+            <app-custom-select
+              [selectedOption]="selectEndTime()"
+              [iconPath]="'assets/svg/clock-green.svg'"
+              [placeholder]="'To'"
+              [options]="endTimeOptions()"
+              (optionSelected)="onEndTimeChange($event)"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <app-custom-button (click)="onMakeReservation()">{{ title }}</app-custom-button>
+  </div>
+</div>

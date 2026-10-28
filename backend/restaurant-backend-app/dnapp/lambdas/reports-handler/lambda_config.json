@@ -1,0 +1,32 @@
+{
+  "version": "1.0",
+  "name": "reports-handler",
+  "func_name": "ReportHandler::ReportHandler.Function::FunctionHandler",
+  "resource_type": "lambda",
+  "iam_role_name": "reports-handler-role",
+  "runtime": "dotnet10",
+  "memory": 128,
+  "timeout": 100,
+  "lambda_path": "lambdas\\reports-handler",
+  "dependencies": [],
+  "event_sources": [
+    {
+      "resource_type": "sqs_trigger",
+      "target_queue": "${reports_queue_name}",
+      "batch_size": 10,
+      "batch_window": 0,
+      "function_response_types": [
+        "ReportBatchItemFailures"
+      ]
+    }
+  ],
+  "env_variables": {
+    "ReportsTableName": "${reports_table_name}",
+    "AwsRegion": "${region}"
+  },
+  "publish_version": true,
+  "alias": "${lambdas_alias_name}",
+  "url_config": {},
+  "ephemeral_storage": 512,
+  "tags": {}
+}

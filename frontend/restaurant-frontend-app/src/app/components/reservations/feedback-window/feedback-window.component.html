@@ -1,0 +1,155 @@
+<!-- <div class="modal-backdrop" tabindex="0" (click)="onClose()" (keydown.enter)="onClose()">
+<div #modal class="feedback-wrapper">
+  <div class="header-feedback-wrapper">
+    <div class="header-feedback">
+      <h3 class="feedback-title">Give Feedback</h3>
+      <button class="close-btn" (click)="onClose()">
+        <img src="assets/svg/close.svg" alt="close button" />
+      </button>
+    </div>
+    <span class="subtitle">Please rate your experience below</span>
+  </div>
+
+  <main class="main-container">
+    <div class="feedback-tabs" (mouseleave)="hovered = ''">
+      <div
+        class="tab left-tab"
+        [class.active]="hovered !== 'right'"
+        (mouseenter)="hovered = 'left'"
+        >
+        <h3>Service</h3>
+
+
+        @if(hovered !== 'right')   {
+          <div class="content">
+            <img [src]="'assets/img/avatar-mario.jpg'" alt="Avatar" class="avatar" />
+            <ul class="wairer-info">
+              <li class="waiter waiter-mame">Mario Jast</li>
+              <li class="waiter role">Waiter</li>
+              <li class="waiter waiter-rating">
+                4.9
+                <img [src]="'assets/svg/star-mini.svg'" alt=" mini star" class="mini-star" />
+              </li>
+            </ul>
+          </div>
+        }
+      </div>
+
+      <div
+        class="tab right-tab"
+        [class.active]="hovered === 'right'"
+        (mouseenter)="hovered = 'right'"
+        >
+        <h3>Culinary Experience</h3>
+      </div>
+    </div>
+
+    <div class="raiting-wrapper">
+      <app-rating [rating]="currentRating" (ratingChange)="onRatingChange($event)"></app-rating>
+      <p class="rating">{{ currentRating }}/5 stars</p>
+    </div>
+    <textarea
+      [(ngModel)]="comment"
+    placeholder="Add your comments"></textarea>
+  </main>
+  <app-custom-button (click)="onSubmitFeedback()" class="edit-confirmed-btn">
+    Submit Feedback
+  </app-custom-button>
+</div>
+</div> -->
+
+<div class="modal-backdrop" role="presentation" tabindex="0" (click)="onClose()" (keydown.enter)="onClose()">
+  <div #modal class="feedback-wrapper" role="presentation" (click)="$event.stopPropagation()">
+    <div class="header-feedback-wrapper">
+      <div class="header-feedback">
+        <h3 class="feedback-title">Give Feedback</h3>
+        <button class="close-btn" (click)="onClose()">
+          <img src="assets/svg/close.svg" alt="close button" />
+        </button>
+      </div>
+      <span class="subtitle">Please rate your experience below</span>
+    </div>
+
+    <div class="feedback-tabs">
+      @if (showServiceForm) {
+        <div
+          class="tab left-tab"
+          role="tab"
+          tabindex="0"
+          [class.active]="selectedTab === 'service'"
+          (click)="selectedTab = 'service'"
+          (keydown.enter)="selectedTab = 'service'"
+        >
+          <h4>Service</h4>
+        </div>
+      }
+      @if (showCuisineForm) {
+        <div
+          class="tab right-tab"
+          role="tab"
+          tabindex="0"
+          [class.active]="selectedTab === 'cuisine'"
+          (click)="selectedTab = 'cuisine'"
+          (keydown.enter)="selectedTab = 'cuisine'"
+        >
+          <h4>Culinary Experience</h4>
+        </div>
+      }
+    </div>
+
+    <main class="main-container">
+      @if (selectedTab === 'service') {
+        <div class="content waiter-info-wrapper">
+          <img [src]="waiterProfileImage" alt="Avatar" class="avatar" />
+          <ul class="waiter-info">
+            <li class="waiter-name">{{ waiterName }}</li>
+            <li class="role">Waiter</li>
+            <li class="waiter-rating">
+              4.9
+              <img src="assets/svg/star-mini.svg" alt="mini star" class="mini-star" />
+            </li>
+          </ul>
+        </div>
+      }
+
+      @if (selectedTab === 'cuisine') {
+        <div class="content"></div>
+      }
+
+      <div class="raiting-wrapper">
+        @if (showServiceForm && selectedTab === 'service') {
+          <section class="rating-block" [class.hidden]="selectedTab !== 'service'">
+            <h4>Service Rating</h4>
+            <app-rating [rating]="serviceRating" (ratingChange)="serviceRating = $event">
+            </app-rating>
+            <p class="rating">{{ serviceRating }}/5 stars</p>
+            <textarea placeholder="Add your service comments" [(ngModel)]="serviceComment">
+            </textarea>
+          </section>
+        }
+
+        @if (showCuisineForm && selectedTab === 'cuisine') {
+          <section class="rating-block" [class.hidden]="selectedTab !== 'cuisine'">
+            <h4>Cuisine Rating</h4>
+            <app-rating [rating]="cuisineRating" (ratingChange)="cuisineRating = $event">
+            </app-rating>
+            <p class="rating">{{ cuisineRating }}/5 stars</p>
+            <textarea placeholder="Add your cuisine comments" [(ngModel)]="cuisineComment">
+            </textarea>
+          </section>
+        }
+      </div>
+    </main>
+
+    @if (!feedbackForUpdate?.service || !feedbackForUpdate?.cuisineExperience) {
+      <app-custom-button (click)="onSubmitFeedback()" class="edit-confirmed-btn">
+        Submit Feedback
+      </app-custom-button>
+    }
+    @if (feedbackForUpdate?.service && feedbackForUpdate?.cuisineExperience) {
+      <app-custom-button (click)="onUpdateFeedback()" class="edit-confirmed-btn">
+        Update Feedback
+      </app-custom-button>
+    }
+  </div>
+</div>

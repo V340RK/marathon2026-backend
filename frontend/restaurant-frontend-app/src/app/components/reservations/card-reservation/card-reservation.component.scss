@@ -1,0 +1,161 @@
+@use 'app/shared/styles/abstracts/colors' as color;
+
+.card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  height: 100%;
+  padding: 1.5rem;
+
+  background-color: color.$neutral-0;
+  border-radius: 1.5rem;
+  box-shadow: 0 0 10px 4px color.$shadow;
+
+  .details-line {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-height: 1.5rem;
+
+    .details {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      margin: 0;
+      font-size: 0.875rem;
+
+      .line-icon {
+        flex: 0 0 auto;
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 78px;
+      min-height: 1.5rem;
+      padding: 0 0.5rem;
+
+      color: color.$neutral-900;
+      background-color: color.$neutral-100;
+      border-radius: 1rem;
+
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1rem;
+
+      &.reserved {
+        background-color: color.$orange-100;
+      }
+
+      &.in-progress {
+        background-color: color.$blue-100;
+      }
+
+      &.finished {
+        color: color.$neutral-900;
+        background-color: color.$neutral-100;
+      }
+
+      &.canceled {
+        color: color.$neutral-600;
+        background-color: color.$neutral-200;
+      }
+    }
+  }
+}
+
+.details-wrapper {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.5rem;
+
+  min-height: 120px;
+
+  @media (max-width: 837px) {
+    margin-bottom: 1rem;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+
+  margin-top: 5rem;
+  margin-left: auto;
+
+  @media (max-width: 837px) {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: flex-start;
+
+    margin-top: 3rem;
+    margin-left: 0;
+  }
+}
+
+.change-table {
+  display: flex;
+
+  margin-left: auto;
+  padding-left: 1rem;
+
+  font-size: 14px;
+}
+
+.with-table {
+  display: flex;
+  flex-direction: row;
+
+  height: max-content;
+  margin-bottom: 1rem;
+
+  @media (max-width: 837px) {
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    margin-bottom: 5rem;
+  }
+}
+
+::ng-deep .change-table .custom-select {
+  display: flex;
+
+  width: 7rem;
+  padding: 0;
+
+  border: none;
+}
+
+::ng-deep .change-table app-custom-select .dropdown li:hover {
+  border: 1px solid color.$green-600;
+}
+
+.preorder-badge {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 1.5rem;
+  padding: 0 0.5rem;
+
+  background-color: color.$orange-100;
+  border-radius: 1rem;
+
+  font-size: 0.875rem;
+  line-height: 1rem;
+}

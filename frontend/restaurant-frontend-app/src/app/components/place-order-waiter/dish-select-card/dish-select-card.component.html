@@ -1,0 +1,29 @@
+<div class="dish-card">
+  <div class="column">
+    <div class="dish-image">
+      <img [src]="dish.imageUrl" alt="{{ dish.name }}" />
+    </div>
+  </div>
+  <div class="column">
+    <h4 class="dish-name">{{ dish.name }}</h4>
+    <p class="dish-description">{{ dish.description }}</p>
+    <div class="counter">
+      <button (click)="onDecrement()" [disabled]="!canGoDown()">
+        <img src="../../../../assets/svg/minus-green.svg" alt="Minus" />
+      </button>
+
+      <span class="value">{{ quantity }}</span>
+      <!-- Replace with actual dish quantity when implemented -->
+
+      <button (click)="onIncrement()">
+        <img src="../../../../assets/svg/plus-green.svg" alt="Plus" />
+      </button>
+    </div>
+  </div>
+  <div class="column">
+    <button class="remove-btn" (click)="onRemove()">
+      <img src="../../../../assets/svg/trash.svg" alt="Remove Dish" />
+    </button>
+    <div class="price">{{ dish.price | currency: '$' }}</div>
+  </div>
+</div>

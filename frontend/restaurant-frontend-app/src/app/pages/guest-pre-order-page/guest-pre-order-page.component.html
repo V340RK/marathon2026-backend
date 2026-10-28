@@ -1,0 +1,103 @@
+@if (store.status() === 'submitted') {
+<app-guest-preorder-submitted [items]="store.cartItems()" [total]="store.total()" [guestName]="store.guestName()"
+    [invite]="store.invite()" (createNew)="store.createNewPreorder()" />
+} @else {
+@if (store.inviteError() === 'retryable') {
+<section class="invite-retry" role="alert">
+    <h1>We couldn’t load the invitation</h1>
+    <p>This may be a temporary connection or server issue. Please try again.</p>
+    <button type="button" [disabled]="store.inviteLoading()" (click)="retryInviteLoad()">
+        {{ store.inviteLoading() ? 'Retrying...' : 'Try again' }}
+    </button>
+</section>
+} @else {
+<!-- green info strip + cart icon -->
+<div class="reservation-strip">
+    <div class="strip-text">
+        @if (store.inviteVm(); as vm) {
+        You are making a pre-order for the reservation
+        {{ vm.locationAddress }}, {{ vm.tableNumberText }}, {{ vm.timeText }}
+        } @else if (store.inviteLoading()) {
+        Loading reservation details...
+        } @else {
+        Reservation details are unavailable
+        }
+    </div>
+
+    <button type="button" class="cart-btn" (click)="openCart()" aria-label="Open cart">
+        <img src="assets/svg/cart-empty.svg" alt="" />
+    </button>
+</div>
+
+<div class="menu-container">
+    <div class="page-navigation">
+        <a routerLink="/main">Main page</a>
+        <span>›</span>
+        <span class="page-navigation__location">Menu</span>
+    </div>
+
+    <section class="hero-section">
+        <app-main-cover-image src="assets/img/main-page-cover.webp" alt="Fresh restaurant dishes" />
+        <div class="hero-text-block">
+            <p class="hero-subtitle">Green &amp; Tasty Restaurants</p>
+            <h1 class="hero-title">Menu</h1>
+        </div>
+    </section>
+
+    <main class="content-sections">
+        @if (store.menuLoading()) {
+            <div class="menu-placeholder">Loading menu...</div>
+        } @else if (store.menuError()) {
+            <div class="menu-placeholder">{{ store.menuError() }}</div>
+        } @else if (!store.hasMenu()) {
+            <div class="menu-placeholder">Menu is empty</div>
+        } @else {
+            <section class="menu-section" aria-label="Pre-order menu">
+                <div class="filter-sort-bar">
+                    <nav class="category-buttons" aria-label="Dish categories">
+                        <button type="button" [class.active]="selectedCategory() === null" (click)="selectCategory(null)">
+                            All dishes
+                        </button>
+                        @for (category of categoryOptions(); track category.key) {
+                            <button type="button" [class.active]="selectedCategory() === category.key" (click)="selectCategory(category.key)">
+                                {{ category.label }}
+                            </button>
+                        }
+                    </nav>
+
+                    <div class="sort-dropdown">
+                        <label for="guestMenuSort">Sort by:</label>
+                        <select id="guestMenuSort" [value]="selectedSort()" (change)="onSortChanged($event)">
+                            <option value="recommended">Recommended</option>
+                            <option value="price-asc">Price: Low to high</option>
+                            <option value="price-desc">Price: High to low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="dish-cards">
+                    @for (dish of visibleDishes(); track dish.id) {
+                        <app-dish-card
+                            [dish]="dish"
+                            [preOrderEnabled]="true"
+                            (preOrderClicked)="addDishToCart(dish)"
+                        />
+                    }
+                </div>
+            </section>
+        }
+    </main>
+    </div>
+
+<!-- mandatory modal: show until name is set -->
+@if (!store.guestName()) {
+<app-guest-name-modal [invite]="store.inviteVm()" (confirmed)="store.join($event)" (closed)="noop()" />
+}
+
+<!-- cart drawer -->
+<app-guest-cart-drawer [open]="isCartOpen()" [items]="store.cartItems()" [total]="store.total()"
+    [busy]="store.cartBusy()" [error]="store.cartError()" (closed)="closeCart()"
+    (goToMenu)="closeCart()" (inc)="store.inc($event)" (dec)="store.dec($event)" (remove)="store.remove($event)"
+    (submitted)="store.submitPreorder()" />
+}
+}

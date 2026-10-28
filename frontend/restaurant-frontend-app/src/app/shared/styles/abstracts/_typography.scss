@@ -1,0 +1,53 @@
+
+
+@use 'app/shared/styles/abstracts/colors' as color;
+
+$font-family-base: 'Poppins', sans-serif;
+
+@mixin global-typography {
+  body {
+    font-family: $font-family-base;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+
+  }
+  h1 {
+    font-size: 48px;
+    font-weight: 500;
+    line-height: 52px;
+    letter-spacing: 0;
+  }
+
+  h2 {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 40px;
+    letter-spacing: 0;
+  }
+
+  h3 {
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 40px;
+    letter-spacing: 0;
+  }
+  h4{
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 32px;
+    letter-spacing: 0;
+  }
+  h5{
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0;
+  }
+
+  input,
+  select,
+  textarea {
+    font-family: inherit;
+  }
+}

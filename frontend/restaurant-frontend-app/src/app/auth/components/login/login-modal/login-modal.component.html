@@ -1,0 +1,9 @@
+<div class="overlay" role="button" tabindex="0" (click)="close()" (keydown.enter)="close()" (keydown.space)="close()">
+    <div class="modal" tabindex="0" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+        <button type="button" class="icon-button icon-button--small modal-close" (click)="close()" aria-label="Close">
+            <img src="assets/svg/close.svg" alt="" />
+        </button>
+
+        <app-login-form (success)="close()" />
+    </div>
+</div>

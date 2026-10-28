@@ -1,0 +1,396 @@
+@use 'app/shared/styles/abstracts/colors' as color;
+@use 'sass:color' as col;
+
+.location-container {
+  font-family: 'Poppins', sans-serif;
+  color: color.$neutral-900;
+}
+
+.location-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 6rem;
+  margin-bottom: 3.75rem;
+  background-color: color.$sage-100;
+  position: relative;
+  min-height: 58vh;
+
+  @media (max-width: 768px) {
+    min-height: auto;
+  }
+}
+
+.location-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  -webkit-box-orient: vertical;
+}
+
+.restaurant-image-wrap {
+  position: relative;
+  width: 65vw;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    aspect-ratio: 997 / 586;
+  }
+}
+
+.restaurant-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.restaurant-info {
+  position: absolute;
+  top: 7.5rem;
+  right: 2.5rem;
+  width: calc(43vw - 2.5rem);
+  border-radius: 12px;
+  padding: 1.5rem;
+  background: linear-gradient(180deg, color.$neutral-0 0%,color.$bg-yellow 100%);
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+
+.restaurant-info .location-description {
+  margin: 12px 0 0;
+}
+
+.restaurant-address {
+  font-size: 2rem;
+  line-height: 2rem;
+  margin: 0;
+}
+
+.restaurant-info__address-rating {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.restaurant-address-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+
+.address-icon {
+  height: 2rem;
+  width: auto;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: 2rem; // same height as one address line, so it centres on the first line
+  flex-shrink: 0;
+  white-space: nowrap;
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.restaurant-info__actions {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+
+
+.reviews-section {
+  margin: 0 2.5rem;
+}
+
+.reviews-section h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.reviews-section__options {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+
+  @media (max-width: 560px) {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+.reviews-section__options-sorting span {
+  margin-right: 6px;
+}
+
+.reviews-section__options-sorting select {
+  border: 2px solid color.$color-success;
+  border-radius: 6px;
+  font-size: 14px;
+  appearance: none;
+  background: color.$neutral-0 url('/assets/svg/arrow-down.svg') no-repeat right 4px center / 24px 24px;
+  padding: 10px calc(4px + 24px + 4rem) 10px 17px; // 4px edge + 24px arrow + 4rem gap to the text
+  @media (max-width: 560px) {
+    width: 70%;
+  }
+}
+
+// Native <option> lists ignore padding in most browsers. `base-select` (Chromium 135+) makes the
+// popup stylable; elsewhere the select keeps its native list.
+@supports (appearance: base-select) {
+  .reviews-section__options-sorting select,
+  .reviews-section__options-sorting select::picker(select) {
+    appearance: base-select;
+  }
+
+  .reviews-section__options-sorting select {
+    &::picker-icon {
+      display: none;
+    }
+
+    &:open {
+      background-image: url('/assets/svg/arrow-up.svg');
+    }
+
+    &::picker(select) {
+      position-area: bottom;
+      position-try-fallbacks: none;
+      margin-top: 4px;
+      padding: 0;
+      border: 1px solid color.$neutral-200;
+      border-radius: 6px;
+      background: color.$neutral-0;
+    }
+
+    option {
+      padding: 4px 8px;
+      font-size: 14px;
+      cursor: pointer;
+
+      &:hover,
+      &:focus-visible {
+        background-color: color.$green-100;
+      }
+
+      &:checked {
+        font-weight: 500;
+        color: color.$green-600;
+      }
+
+      &::checkmark {
+        display: none;
+      }
+    }
+  }
+}
+
+.review-tabs {
+  display: flex;
+  border-bottom: 1px solid color.$neutral-200;
+}
+
+.tab {
+  cursor: pointer;
+  padding: 0.5rem 1.5rem;
+  margin-bottom: -1px;
+  vertical-align: middle;
+  line-height: 2rem;
+  font-size: 18px;
+  color: color.$neutral-900;
+  @media (max-width: 390px) {
+    line-height: 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+.tab.active {
+  font-weight: 500;
+  color: color.$green-600;
+  border-bottom: 2px solid color.$green-600;
+}
+
+.reviews-row {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-x: auto;
+  justify-content: center;
+  gap: 32px;
+  // 16px of room so the card shadow (10px blur + 4px spread) is not clipped by overflow;
+  // the negative margin cancels it out, leaving a 24px gap to the pagination
+  padding: 16px;
+  margin: -16px -16px 8px;
+  scroll-snap-type: x mandatory;
+  align-items: center;
+}
+
+.review-card {
+  flex: 0 0 316px;
+  height: 324px;
+  background: color.$neutral-0;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start;
+  box-shadow: 0 0 10px 4px rgba(218, 218, 218, 0.7);
+}
+
+.review-avatar {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.review-content {
+  flex: 1;
+}
+
+.review-text {
+  // margin (not padding) so lines beyond the clamp cannot peek through the bottom spacing
+  margin: 0 24px 24px;
+  font-size: 14px;
+  line-height: 24px;
+  color: color.$neutral-900;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
+}
+
+.review-content__header {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 24px;
+}
+
+.review-content__header-data {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.review-content__author {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  gap: 7px;
+}
+
+.review-name {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  color: color.$neutral-900;
+  word-break: break-word;
+}
+
+.review-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.review-star {
+  width: 16px;
+  height: 16px;
+
+  &.empty {
+    filter: grayscale(1);
+    opacity: 0.3;
+  }
+}
+
+.review-date {
+  margin: 0;
+  flex-shrink: 0;
+  font-size: 12px;
+  line-height: 16px;
+  color: color.$neutral-400;
+  white-space: nowrap;
+}
+
+.pagination {
+  text-align: center;
+  max-width: 300px;
+}
+
+.pagination-arrow {
+  display: block;
+}
+.pagination-arrow.hidden {
+  overflow: hidden;
+}
+
+.pagination button,
+.pagination span {
+  display: inline-block;
+  width: 32px;
+  text-align: center;
+}
+
+.pagination button {
+  margin: 0px 8px;
+  padding: 1px 5px;
+  cursor: pointer;
+  display: inline-block;
+  width: 32px;
+  text-align: center;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+}
+
+.pagination button:first-child {
+  margin-left: 0px;
+}
+
+.pagination button:last-child {
+  margin-right: 0px;
+}
+
+.pagination button.active {
+  font-weight: bold;
+  border-bottom: 2px solid color.$color-success;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  max-width: 300px;
+  margin: 0 auto 16px;
+}
+
+.pagination a,
+.pagination span {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+}

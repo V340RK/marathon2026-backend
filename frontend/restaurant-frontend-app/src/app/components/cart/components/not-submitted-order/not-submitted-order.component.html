@@ -1,0 +1,118 @@
+<div class="not-submitted-order">
+  <div class="content">
+    <div class="order">
+      <span class="body-bold">
+        Pre-order #{{ order().orderId }}
+        ({{ order().reservationAddress }}, {{ order().reservationTime }})
+      </span>
+
+      <div class="order-item">
+        @for (item of order().orderItems; track item.dish.id) {
+        <div class="order-item-dish">
+          <img
+            class="dish-image"
+            [src]="item.dish.imageUrl"
+            [alt]="item.dish.name"
+            width="96"
+            height="96"
+          />
+
+          <div class="container">
+            <div class="details">
+              <div class="dish-name">
+                <span class="body-bold">{{ item.dish.name }}</span>
+                  <span class="caption">Expected ready time – 10 minutes</span>
+                </div>
+
+                <button
+                  type="button"
+                  class="icon-button icon-button--small"
+                  [attr.aria-label]="'Remove ' + item.dish.name"
+                  (click)="removeDishFromOrder(item.dish.id)"
+                >
+                  <img
+                    src="assets/svg/trash.svg"
+                    alt=""
+                    aria-hidden="true"
+                    width="24"
+                    height="24"
+                  />
+                </button>
+              </div>
+
+              <div class="quantity">
+                <div class="quantity-buttons">
+                  <button
+                    type="button"
+                    class="icon-button icon-button--small"
+                    aria-label="Decrease quantity"
+                    [disabled]="item.quantity <= 1"
+                    (click)="decrementItemQuantity(item.dish.id)"
+                  >
+                    <img
+                      src="assets/svg/minus-green.svg"
+                      alt=""
+                      aria-hidden="true"
+                      width="24"
+                      height="24"
+                    />
+                  </button>
+
+                  <span class="value">{{ item.quantity }}</span>
+
+                  <button
+                    type="button"
+                    class="icon-button icon-button--small"
+                    aria-label="Increase quantity"
+                    (click)="incrementItemQuantity(item.dish.id)"
+                  >
+                    <img
+                      src="assets/svg/plus-green.svg"
+                      alt=""
+                      aria-hidden="true"
+                      width="24"
+                      height="24"
+                    />
+                  </button>
+                </div>
+
+                <span class="body-bold">
+        {{ item.dish.price * item.quantity | currency }}
+        </span>
+      </div>
+    </div>
+  </div>
+        }
+
+        <button
+          type="button"
+          class="button button--tertiary button--large add-dish-btn"
+          (click)="addDishToOrder()"
+        >
+          <img
+            src="assets/svg/plus-green.svg"
+            alt=""
+            aria-hidden="true"
+            width="24"
+            height="24"
+          />
+
+          Add dish
+        </button>
+      </div>
+    </div>
+
+    <div class="total">
+      <span class="body-bold">Total payment</span>
+      <h2>{{ totalPrice() | currency }}</h2>
+    </div>
+  </div>
+
+  <button
+    type="button"
+    class="button button--primary button--large submit-btn"
+    (click)="submit()"
+  >
+    Submit Pre-order
+  </button>
+</div>

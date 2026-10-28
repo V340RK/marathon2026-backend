@@ -1,0 +1,135 @@
+@use 'app/shared/styles/abstracts/colors' as color;
+
+.preorder-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  //justify-content: center;
+  padding: 1rem 2.5rem;
+  gap: 1.5rem;
+
+  @media (max-width: 780px) {
+    justify-content: center;
+  }
+}
+
+.pre-order-dish {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 18px;
+  line-height: 2rem;
+  padding: 1rem 2.5rem;
+  color: color.$neutral-600;
+}
+
+.breadcrumb {
+  font-size: 14px;
+  line-height: 24px;
+  margin-left: 2.5rem;
+  color: color.$neutral-600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.breadcrumb-link {
+  color: color.$neutral-600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.breadcrumb-link:hover {
+  color: color.$neutral-900;
+  text-decoration: underline;
+}
+
+.breadcrumb-separator {
+  color: color.$neutral-600;
+  font-size: 1.5rem;
+}
+
+.breadcrumb-current {
+  font-weight: 600;
+  color: color.$neutral-900;
+}
+
+.preorder-actions {
+  // width: 16.75;
+  width: 90%;
+  height: 2.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 1rem;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn-cancel,
+.btn-confirm {
+  width: 126px;
+}
+
+.btn-cancel {
+  align-self: flex-start;
+  border: 1px solid color.$green-600;
+  border-radius: 0.5rem;
+  height: 2.5rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  font-size: 0.875rem;
+  color: color.$green-600;
+  text-align: center;
+  cursor: pointer;
+}
+
+::ng-deep .preorder-list app-dish-card [dish-footer] app-custom-button ::ng-deep button {
+  height: 2.5rem;
+}
+
+.pre-order-footer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+::ng-deep app-custom-button.btn-cancel > .custom-button {
+  // height: 2.5rem;
+  background-color: color.$neutral-0;
+  color: color.$green-600;
+  border: 1px solid color.$green-600;
+  align-self: flex-start;
+  border-radius: 0.5rem;
+  height: 2.5rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  font-size: 0.875rem;
+  text-align: center;
+  cursor: pointer;
+
+  &:disabled {
+    color: color.$neutral-0;
+    cursor: not-allowed;
+    border: 1px solid color.$neutral-200;
+  }
+}
+
+::ng-deep .preorder-list app-dish-card a .dish-info .dish-meta {
+  width: 90%;
+  background-color: aqua;
+}
+::ng-deep .preorder-list app-dish-card a {
+  //  padding-bottom: 0;
+  //  background-color: bisque;
+}
+
+.pre-order-quantity {
+  position: relative;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}

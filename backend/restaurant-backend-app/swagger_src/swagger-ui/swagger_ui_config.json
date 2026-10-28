@@ -1,0 +1,1 @@
+{"name": "swagger-ui", "resource_type": "swagger_ui", "path_to_spec": "swagger_src/swagger-ui/swagger-endpoints.yaml", "target_bucket": "${swagger_ui_hoster_bucket_name}", "deployment_package": "swagger_ui_swagger-ui.zip"}

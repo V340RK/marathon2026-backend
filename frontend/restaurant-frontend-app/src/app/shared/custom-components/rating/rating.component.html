@@ -1,0 +1,16 @@
+<div class="stars">
+  @for (star of stars; let i = $index; track i) {
+    <button
+      type="button"
+      class="star"
+      (click)="setRating(i + 1)"
+      [attr.aria-label]="'Rate ' + (i + 1) + ' stars'"
+    >
+      <img
+        [src]="i < rating() ? filledIcon : emptyIcon"
+        [alt]="'Star ' + (i + 1)"
+        class="star-icon"
+      />
+    </button>
+  }
+</div>

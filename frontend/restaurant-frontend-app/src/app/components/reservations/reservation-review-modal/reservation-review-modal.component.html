@@ -1,0 +1,40 @@
+<app-modal title="Review & Confirm Reservation" (closed)="onClose()">
+  <dl class="info">
+    <div class="info-row">
+      <dt>Location</dt>
+      <dd>{{ locationName() }}</dd>
+    </div>
+    <div class="info-row">
+      <dt>Date</dt>
+      <dd>{{ date() | date: 'MMM d, y' }}</dd>
+    </div>
+    <div class="info-row">
+      <dt>Time</dt>
+      <dd>{{ timeLabel() }}</dd>
+    </div>
+    <div class="info-row">
+      <dt>Guests</dt>
+      <dd>{{ guestsLabel() }}</dd>
+    </div>
+  </dl>
+
+  <p class="note">You can cancel up to 30 min before your reservation.</p>
+
+  <div modal-actions class="actions">
+    <button
+      type="button"
+      class="button button--secondary button--extra-large edit-btn"
+      (click)="onEdit()"
+    >
+      Edit
+    </button>
+    <button
+      type="button"
+      class="button button--primary button--extra-large confirm-btn"
+      [disabled]="submitting()"
+      (click)="onConfirm()"
+    >
+      Confirm
+    </button>
+  </div>
+</app-modal>

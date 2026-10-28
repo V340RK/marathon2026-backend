@@ -1,0 +1,101 @@
+<div class="card profile-info">
+  <div class="photo">
+    <div class="profile-image">
+      <img
+        [src]="profileImage() || '/assets/img/avatar.png'"
+        alt="Profile"
+      />
+    </div>
+
+    <button
+      type="button"
+      class="button button--tertiary button--large upload-button"
+      (click)="fileInput.click()"
+    >
+      Upload Photo
+    </button>
+
+    <input
+      #fileInput
+      type="file"
+      accept="image/*"
+      hidden
+      (change)="onFileSelected($event)"
+    />
+  </div>
+
+  <div class="form-area">
+    @if (user(); as currentUser) {
+      <div>
+        <h4>
+          {{ currentUser.firstName }}
+          {{ currentUser.lastName }}
+          ({{ currentUser.role }})
+        </h4>
+        <p class="body">{{ currentUser.email }}</p>
+      </div>
+    }
+
+    <form
+      class="profile-form"
+      [formGroup]="userForm"
+      (ngSubmit)="onSave()"
+    >
+      <div class="form-row">
+        <label class="block-title" for="firstName">
+          First Name
+        </label>
+
+        <input
+          id="firstName"
+          class="body"
+          type="text"
+          formControlName="firstName"
+          autocomplete="given-name"
+          [class.error-input]="isInvalid('firstName')"
+        />
+
+        @if (isInvalid('firstName')) {
+          <small class="error-message">
+            First name must be up to 50 characters. Only Latin letters,
+            hyphens, and apostrophes are allowed.
+          </small>
+        } @else {
+          <small>e.g. Jonson</small>
+        }
+      </div>
+
+      <div class="form-row">
+        <label class="block-title" for="lastName">
+          Last Name
+        </label>
+
+        <input
+          id="lastName"
+          class="body"
+          type="text"
+          formControlName="lastName"
+          autocomplete="family-name"
+          [class.error-input]="isInvalid('lastName')"
+        />
+
+        @if (isInvalid('lastName')) {
+          <small class="error-message">
+            Last name must be up to 50 characters. Only Latin letters,
+            hyphens, and apostrophes are allowed.
+          </small>
+        } @else {
+          <small>e.g. Doe</small>
+        }
+      </div>
+
+      <button
+        type="submit"
+        class="button button--primary button--large save-button"
+        [disabled]="userForm.invalid"
+      >
+        Save Changes
+      </button>
+    </form>
+  </div>
+</div>

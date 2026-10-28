@@ -1,0 +1,144 @@
+<app-header></app-header>
+
+<div class="location-container">
+  <div class="location-header">
+    <div class="restaurant-image-wrap">
+      <img
+        class="restaurant-image"
+        [src]="location?.imageUrl || 'assets/img/restaurant.png'"
+        alt="Restaurant Image"
+      />
+    </div>
+
+    <div class="restaurant-info">
+      <div class="restaurant-info__address-rating">
+        <div class="restaurant-address-wrap">
+          <img src="assets/svg/address.svg" alt="Location icon" class="address-icon" />
+          <p class="restaurant-address">{{ location?.address }}</p>
+        </div>
+        <div class="rating">
+          <img src="assets/svg/star-mini.svg" alt="star icon" />
+          <span>{{ location?.rating | number: '1.2-2' }} / 5</span>
+        </div>
+      </div>
+
+      <b>Atmosphere</b>
+      <p class="location-description">
+        {{ location?.description }}
+      </p>
+
+      <div class="restaurant-info__actions">
+        <a
+          class="button button--primary button--extra-large"
+          [routerLink]="['/tables']"
+          [queryParams]="{ locationId: $safeNavigationMigration(location?.id) }"
+          >Book a Table</a
+        >
+        <a class="button button--secondary button--extra-large" [routerLink]="['/menu']">View menu</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="reviews-section">
+    <h2>Customer Reviews</h2>
+
+    <!-- Review Filters -->
+    <div class="reviews-section__options">
+      <div class="review-tabs">
+        @for (type of reviewTypeValues; track type) {
+          <span
+            class="tab"
+            [class.active]="selectedType === type"
+            tabindex="0"
+            role="tab"
+            (click)="onTabChange(type)"
+            (keydown.enter)="onTabChange(type)"
+            (keydown.space)="onTabChange(type); $event.preventDefault()"
+          >
+            {{ reviewTypeLabels[type] }}
+          </span>
+        }
+      </div>
+
+      <div class="reviews-section__options-sorting">
+        <span>Sort by:</span>
+        <select (change)="onSortChange($event.target)">
+          @for (sort of reviewSortValues; track sort) {
+            <option [value]="sort">
+              {{ reviewSortLabels[sort] }}
+            </option>
+          }
+        </select>
+      </div>
+    </div>
+
+    @if (reviews.length) {
+      <div class="reviews-row">
+        @for (review of reviews; track review) {
+          <div class="review-card">
+            <div class="review-content">
+              <div class="review-content__header">
+                <img
+                  class="review-avatar"
+                  [src]="getFeedbackUserImage(review.userId)"
+                  alt="User Avatar"
+                />
+                <div class="review-content__header-data">
+                  <div class="review-content__author">
+                    <p class="review-name">{{ review.username }}</p>
+                    <div
+                      class="review-rating"
+                      role="img"
+                      [attr.aria-label]="'Rating: ' + review.rating + ' out of ' + maxStars + ' stars'"
+                    >
+                      @for (star of [].constructor(maxStars); track star; let i = $index) {
+                        <img
+                          class="review-star"
+                          [class.empty]="i >= review.rating"
+                          src="assets/svg/star-mini.svg"
+                          alt=""
+                          aria-hidden="true"
+                        />
+                      }
+                    </div>
+                  </div>
+                  <p class="review-date">{{ review.createdAt | date }}</p>
+                </div>
+              </div>
+              <p class="review-text">{{ review.comment }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <p>{{ reviewsLabel }}</p>
+    }
+
+    @if (totalPages > 1) {
+      <!-- Pagination -->
+      <div class="pagination">
+        <button
+          class="pagination-arrow"
+          [style.visibility]="visiblePageNumbers[0] > 1 ? 'visible' : 'hidden'"
+          (click)="goToPage(visiblePageNumbers[0] - 1)"
+        >
+          <span>&lt;&lt;</span>
+        </button>
+
+        @for (page of visiblePageNumbers; track page) {
+          <button (click)="goToPage(page)" [class.active]="currentPage === page">
+            {{ page }}
+          </button>
+        }
+
+        <button
+          class="pagination-arrow"
+          [style.visibility]="visiblePageNumbers[visiblePageNumbers.length - 1] < totalPages ? 'visible' : 'hidden'"
+          (click)="goToPage(visiblePageNumbers[visiblePageNumbers.length - 1] + 1)"
+        >
+          <span>&gt;&gt;</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

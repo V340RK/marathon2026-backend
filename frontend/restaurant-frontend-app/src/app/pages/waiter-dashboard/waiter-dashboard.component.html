@@ -1,0 +1,104 @@
+<app-header />
+
+<div class="subheading">
+  <h3>Hello, {{ waiterName() }} ({{ role() }})</h3>
+</div>
+
+<section class="filtration">
+  <div class="custom-selects">
+    <app-custom-select
+      class="filter"
+      iconPath="assets/svg/calendar.svg"
+      placeholder="Date"
+      [options]="dateOptions()"
+      [selectedOption]="selectedDate()"
+      (optionSelected)="onDateSelected($event)"
+    />
+
+    <app-custom-select
+      class="filter"
+      iconPath="assets/svg/clock.svg"
+      placeholder="Time"
+      [options]="timeOptions()"
+      [selectedOption]="selectedTime()"
+      (optionSelected)="onTimeSelected($event)"
+    />
+
+    <app-custom-select
+      class="filter"
+      [showIcon]="false"
+      placeholder="Any Table"
+      [options]="tableOptions()"
+      [selectedOption]="selectedTableOption()"
+      (optionSelected)="onTableSelected($event)"
+    />
+
+    <button
+      type="button"
+      class="button button--secondary button--large search-button"
+      aria-label="Apply reservation filters"
+      (click)="applyFilters()"
+    >
+      <img class="search-icon" src="assets/svg/search.svg" alt="" />
+    </button>
+  </div>
+
+  <app-custom-button class="btn-add-reservation" (click)="onOpenMakeReservationModal()">
+    <img class="button-icon" src="assets/svg/plus-white.svg" alt="" />
+    New Reservation
+  </app-custom-button>
+</section>
+
+<div class="reservations-subheader">
+  <div class="number-reservations">{{ filteredReservationsLabel() }}</div>
+</div>
+
+@if (showMakeReservationModal()) {
+  <app-waiter-make-reservation
+    (closeModal)="onCloseMakeReservationModal()"
+    (makeReservation)="onMakeReservation($event)"
+  />
+}
+
+@if (showQr()) {
+  <app-feedback-qr
+    [locationId]="qrLocationId()"
+    [reservationId]="qrReservationId()"
+    [isNewFeedback]="isNewFeedback()"
+    [waiterName]="waiterName()"
+    (closed)="closeQr()"
+  />
+}
+
+@if (reservationsLoaded() && reservationCards().length > 0) {
+  <ul class="reservation-list">
+    @for (card of reservationCards(); track card.reservation.id) {
+      <app-card-reservation
+        [r]="card.reservation"
+        [statusEnum]="statusEnum"
+        [role]="role()"
+        [selectedTableLabel]="card.selectedTableLabel"
+        [availableTableOptions]="card.availableTableOptions"
+        [availableTableOptionsMap]="card.availableTableOptionsMap"
+        [createdByName]="card.reservation.createdByName"
+        [createdByRole]="card.reservation.createdByRole"
+        (cancelReservation)="cancelReservation($event)"
+        (postponeReservation)="onPostponeReservation($event)"
+        (statusChanged)="onReservationStatusChanged($event)"
+        (tableChanged)="onReservationTableChanged($event)"
+        (sendAnonymousFeedback)="onSendAnonymousFeedback($event)"
+        (preOrder)="onPreOrderWaiter($event)"
+      />
+    }
+  </ul>
+}
+
+@if (showPostponeModal()) {
+  <app-time-slots-modal
+    [locationName]="assignedLocationName()"
+    [table]="tableForPostpone()!"
+    [date]="postponeDate()"
+    (closeModal)="closePostponeModal()"
+    (timeSlotSelected)="onPostponeTimeSelected($event)"
+  />
+}

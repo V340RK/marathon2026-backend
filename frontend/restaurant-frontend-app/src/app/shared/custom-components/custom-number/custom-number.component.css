@@ -1,0 +1,61 @@
+.custom-number {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 100px;
+  max-height: 58px;
+  background: #ffffff;
+  border: 1px solid #dadada;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+  padding: 7px 24px;
+}
+@media (max-width: 460px) {
+  .custom-number {
+    padding: 7px 10px;
+  }
+}
+.custom-number .number-text {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 8px;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.counter .value {
+  width: 16px;
+  text-align: center;
+}
+.counter button {
+  border: 1px solid #00ad0c;
+  background: transparent;
+  border-radius: 10px;
+  width: 40px;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.counter button img {
+  width: 32px;
+  height: 32px;
+}
+.counter button:hover {
+  background-color: rgba(45, 183, 76, 0.05);
+}
+.counter button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.counter span {
+  font-size: 20px;
+  font-weight: 500;
+  min-width: 10px;
+} /*# sourceMappingURL=custom-number.component.css.map */

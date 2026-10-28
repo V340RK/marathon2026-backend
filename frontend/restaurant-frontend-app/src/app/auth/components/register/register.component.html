@@ -1,0 +1,125 @@
+<div class="register-container">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+    <div class="greeting-wrapper">
+      <div class="started">LETS GO STARTED</div>
+      <div class="title-create-account">Create an account</div>
+    </div>
+
+    @if (unsuccessfulRegistration) {
+      <div class="response-error-message">
+        {{
+          errorMessage ??
+            'There was an error during the registration process. Please try again later.'
+        }}
+      </div>
+    }
+
+    <div class="name">
+      <label for="firstName">
+        First Name:
+        <input
+          class="default-input"
+          type="text"
+          id="firstName"
+          formControlName="firstName"
+          placeholder="Enter your First Name"
+        />
+
+        <div class="hint-or-error">
+          @if (firstName?.invalid && (firstName?.touched || firstName?.dirty)) {
+            @if (firstName?.errors?.['required']) {
+              <div class="error-message">First name is required.</div>
+            }
+            @if (firstName?.errors?.['maxlength']) {
+              <div class="error-message">First name must be up to 50 characters.</div>
+            }
+            @if (firstName?.errors?.['pattern']) {
+              <div class="error-message">
+                Only Latin letters, hyphens, and apostrophes are allowed.
+              </div>
+            }
+          } @else {
+            <div class="field-hint">e.g. Jonson</div>
+          }
+        </div>
+      </label>
+
+      <label for="lastName">
+        Last Name:
+        <input
+          class="default-input"
+          id="lastName"
+          type="text"
+          formControlName="lastName"
+          placeholder="Enter your Last Name"
+          class="default-input"
+        />
+
+        <div class="hint-or-error">
+          @if (lastName?.invalid && (lastName?.touched || lastName?.dirty)) {
+            @if (lastName?.errors?.['required']) {
+              <div class="error-message">First name is required.</div>
+            }
+            @if (lastName?.errors?.['maxlength']) {
+              <div class="error-message">First name must be up to 50 characters.</div>
+            }
+            @if (lastName?.errors?.['pattern']) {
+              <div class="error-message">
+                Only Latin letters, hyphens, and apostrophes are allowed.
+              </div>
+            }
+          } @else {
+            <div class="field-hint">e.g. Doe</div>
+          }
+        </div>
+      </label>
+    </div>
+
+    <label for="email">
+      Email:
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        placeholder="Enter your Email"
+        class="email-input"
+      />
+
+      <div class="hint-or-error">
+        @if (email?.invalid && (email?.touched || email?.dirty)) {
+          @if (email?.errors?.['required']) {
+            <div class="error-message">Email is required.</div>
+          }
+          @if (email?.errors?.['pattern']) {
+            <div class="error-message">
+              Invalid email address. Please ensure it follows the format: username&#64;domain.com
+            </div>
+          }
+        } @else {
+          <div class="field-hint">e.g. username&#64;domain.com</div>
+        }
+      </div>
+    </label>
+
+    <app-password-with-rules
+      class="password"
+      [control]="password"
+      label="Password"
+      placeholder="Enter your Password"
+    >
+    </app-password-with-rules>
+
+    <app-confirm-password class="password" [control]="confirmPassword"> </app-confirm-password>
+
+    <app-custom-button type="submit" class="btn-submit" [disabled]="registerForm.invalid">
+      Create an Account
+    </app-custom-button>
+    <div class="login-link-wrapper">
+      Already have an account?
+      <a routerLink="/login" class="login-link">Login</a>
+      instead
+    </div>
+  </form>
+
+  <app-green-tasty-image></app-green-tasty-image>
+</div>

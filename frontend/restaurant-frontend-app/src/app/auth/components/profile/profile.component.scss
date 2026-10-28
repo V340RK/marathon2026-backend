@@ -1,0 +1,66 @@
+@use 'app/shared/styles/abstracts/colors' as color;
+
+
+.subheading {
+  display: flex;
+  align-items: center;
+  min-height: 92px;
+  padding: 0 40px;
+  background: color.$bg-green;
+
+}
+
+.profile-wrapper {
+  display: grid;
+  grid-template-columns: 30% 60%;
+  padding: 40px;
+  gap: 20px;
+
+}
+.profile-tab {
+  &.active {
+    color: color.$green-600;
+    text-decoration-color: color.$green-600;
+  }
+
+  &.active:hover {
+    color: color.$green-800;
+    text-decoration-color: color.$green-800;
+  }
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items:flex-start;
+  gap: 8px;
+}
+
+
+@media (max-width: 900px) {
+  .profile-wrapper {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .sidebar {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+
+  .profile-tab {
+    flex: 0 0 auto;
+    width: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .subheading {
+    min-height: 72px;
+    padding: 0 16px;
+  }
+
+  .profile-wrapper {
+    padding: 24px 16px 40px;
+  }
+}

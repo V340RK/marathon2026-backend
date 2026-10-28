@@ -1,0 +1,61 @@
+@use 'app/shared/styles/abstracts/colors' as color;
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.modal-card {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 40px;
+  background: color.$neutral-0;
+  border-radius: 24px;
+  box-shadow: 0 0 5px rgba(218, 218, 218, 0.7);
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  padding: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 40px;
+  color: color.$neutral-900;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 16px;
+
+  &:empty {
+    display: none;
+  }
+}

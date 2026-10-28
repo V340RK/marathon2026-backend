@@ -1,0 +1,52 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.7.11911.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dnapp", "dnapp", "{5BFE4096-119E-7994-1857-DCB610C06FE9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lambdas", "lambdas", "{59BF4908-41AA-EADE-1F87-7017183F1D38}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIHandler", "dnapp\lambdas\api-handler\APIHandler.csproj", "{68A28E22-4387-343D-BF55-8FE89F686613}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIHandler.Tests", "Tests\APIHandler.Tests.csproj", "{E1E8E00D-B19B-7168-3EB3-88CE6E50010D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportSender", "dnapp\lambdas\report-sender\ReportSender.csproj", "{367A63F3-7FA9-328E-90E0-88BE20A62E06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportsHandler", "dnapp\lambdas\reports-handler\ReportsHandler.csproj", "{88BB83FD-02D7-4B91-9D4F-1B7A6424736D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68A28E22-4387-343D-BF55-8FE89F686613}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68A28E22-4387-343D-BF55-8FE89F686613}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68A28E22-4387-343D-BF55-8FE89F686613}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68A28E22-4387-343D-BF55-8FE89F686613}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1E8E00D-B19B-7168-3EB3-88CE6E50010D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1E8E00D-B19B-7168-3EB3-88CE6E50010D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1E8E00D-B19B-7168-3EB3-88CE6E50010D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1E8E00D-B19B-7168-3EB3-88CE6E50010D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{367A63F3-7FA9-328E-90E0-88BE20A62E06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{367A63F3-7FA9-328E-90E0-88BE20A62E06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{367A63F3-7FA9-328E-90E0-88BE20A62E06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{367A63F3-7FA9-328E-90E0-88BE20A62E06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88BB83FD-02D7-4B91-9D4F-1B7A6424736D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88BB83FD-02D7-4B91-9D4F-1B7A6424736D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88BB83FD-02D7-4B91-9D4F-1B7A6424736D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88BB83FD-02D7-4B91-9D4F-1B7A6424736D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{59BF4908-41AA-EADE-1F87-7017183F1D38} = {5BFE4096-119E-7994-1857-DCB610C06FE9}
+		{68A28E22-4387-343D-BF55-8FE89F686613} = {59BF4908-41AA-EADE-1F87-7017183F1D38}
+		{367A63F3-7FA9-328E-90E0-88BE20A62E06} = {59BF4908-41AA-EADE-1F87-7017183F1D38}
+		{88BB83FD-02D7-4B91-9D4F-1B7A6424736D} = {59BF4908-41AA-EADE-1F87-7017183F1D38}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {63212414-AE06-4D9B-8397-06D4D87B60A6}
+	EndGlobalSection
+EndGlobal

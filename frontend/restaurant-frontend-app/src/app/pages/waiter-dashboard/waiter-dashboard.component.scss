@@ -1,0 +1,104 @@
+@use 'app/shared/styles/abstracts/colors' as color;
+
+.subheading {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  background-position: center;
+  background-color: color.$bg-green;
+
+  @media (max-width: 540px) {
+    padding: 0.5rem;
+
+    img {
+      width: 3rem;
+    }
+  }
+}
+
+.filtration {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 96px;
+  padding: 20px 36px;
+  background-color: color.$bg-yellow;
+}
+
+.custom-selects {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+
+}
+
+.filter {
+  flex: 0 1 220px;
+  min-width: 160px;
+
+}
+
+.search-button {
+  flex: 0 0 56px;
+  width: 56px;
+  padding: 0;
+}
+
+.search-icon,
+.button-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.btn-add-reservation {
+  flex: 0 0 220px;
+  width: 220px;
+}
+
+.number-reservations {
+  padding: 24px 36px 0;
+}
+
+.reservation-list {
+  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17.5rem, 30%));
+  grid-auto-rows: 1fr;
+  gap: 2rem;
+  padding: 1.5rem;
+
+  @media (max-width: 1150px) {
+    grid-template-columns: repeat(auto-fill, minmax(17.5rem, 100%));
+    gap: 1rem;
+  }
+}
+
+
+.filter {
+  width: 220px;
+
+  @media (max-width: 460px) {
+    width: 100%;
+  }
+}
+
+
+
+::ng-deep .filtration app-custom-select .dropdown li {
+  padding-left: 1rem !important;
+
+  &:hover {
+    border: 1px solid color.$green-600;
+  }
+}
+
+.number-reservations {
+  @media (max-width: 390px) {
+    justify-content: center;
+    font-size: 0.8rem;
+  }
+}

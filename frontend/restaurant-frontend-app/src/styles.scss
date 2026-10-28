@@ -1,0 +1,40 @@
+/* You can add global styles to this file, and also import other style files */
+@use 'app/shared/styles/abstracts/colors' as color;
+@use 'app/shared/styles/abstracts/typography' as typography;
+@use 'app/shared/styles/buttons';
+@use 'app/shared/styles/modal';
+
+@include typography.global-typography;
+
+* {
+  color: color.$neutral-900;
+  margin: 0;
+  padding: 0;
+}
+
+.toast-success,
+.toast-error,
+.toast-info {
+  margin-top: 87px !important;
+  margin-right:20px !important;
+}
+.toast-success .mat-mdc-snackbar-surface {
+  background-color: color.$green-100 !important;
+  border-radius: 8px !important ;
+  border: 1px solid color.$green-600 !important;
+  color: color.$neutral-900 !important;
+}
+
+.toast-error .mat-mdc-snackbar-surface {
+  background-color: color.$red-100 !important;
+  border-radius: 8px !important ;
+  border: 1px solid color.$red-400 !important;
+  color: color.$red-400 !important;
+}
+
+.toast-info .mat-mdc-snackbar-surface {
+  background-color: color.$blue-100 !important;
+  border-radius: 8px !important ;
+  border: 1px solid color.$blue-400 !important;
+  color: color.$blue-400 !important;
+}

@@ -1,0 +1,25 @@
+<div class="modal-backdrop" role="presentation" (click)="onBackdropClick($event)">
+  <div
+    class="modal-card"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-label]="title() || null"
+    [style.width]="width()"
+  >
+    <button type="button" class="icon-button icon-button--small modal-close" aria-label="Close" (click)="onClose()">
+      <img src="assets/svg/close.svg" alt="" />
+    </button>
+
+    @if (title()) {
+      <h2 class="modal-title">{{ title() }}</h2>
+    }
+
+    <div class="modal-body">
+      <ng-content />
+    </div>
+
+    <div class="modal-actions">
+      <ng-content select="[modal-actions]" />
+    </div>
+  </div>
+</div>

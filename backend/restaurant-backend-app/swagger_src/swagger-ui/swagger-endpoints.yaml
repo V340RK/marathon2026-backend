@@ -1,0 +1,947 @@
+openapi: 3.0.0
+info:
+  title: Guest Reservation & Session API
+  description: API for managing guest sessions, group reservations, and related operations
+  version: 1.0.0
+  contact:
+    name: API Support
+
+servers:
+  - url: https://eknqcvq3l1.execute-api.us-west-2.amazonaws.com/develop
+    description: Production environment
+
+tags:
+  - name: Guest Sessions
+    description: Operations for guest sessions
+  - name: Group Reservations
+    description: Operations for group reservations
+
+paths:
+  /guest/sessions/{guestSessionId}/dishes:
+    post:
+      tags:
+        - Guest Sessions
+      summary: Add dish to guest session
+      description: Adds a dish to a guest's session cart with specified quantity
+      operationId: addDishToGuestSession
+      parameters:
+        - name: guestSessionId
+          in: path
+          required: true
+          description: The ID of the guest session
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateGuestSessionDishRequest'
+      responses:
+        '200':
+          description: Dish added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid request - missing guestSessionId, invalid body, or invalid dish/quantity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Group reservation expired or already submitted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      tags:
+        - Guest Sessions
+      summary: Remove dish from guest session
+      description: Removes a dish from a guest's session cart with specified quantity
+      operationId: removeDishFromGuestSession
+      parameters:
+        - name: guestSessionId
+          in: path
+          required: true
+          description: The ID of the guest session
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateGuestSessionDishRequest'
+      responses:
+        '200':
+          description: Dish removed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid request - missing guestSessionId, invalid body, or invalid dish/quantity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Group reservation expired or already submitted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /guest/sessions:
+    post:
+      tags:
+        - Guest Sessions
+      summary: Create guest session
+      description: Creates a new guest session for a group reservation
+      operationId: createGuestSession
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGuestSessionRequest'
+      responses:
+        '200':
+          description: Guest session created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateGuestSessionResponse'
+        '400':
+          description: Invalid request - missing required fields or validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /guest/groups/{groupReservationId}/submit:
+    post:
+      tags:
+        - Group Reservations
+      summary: Submit group pre-order
+      description: Submits the pre-order for a group reservation, converting guest sessions to orders
+      operationId: submitGroupPreOrder
+      parameters:
+        - name: groupReservationId
+          in: path
+          required: true
+          description: The ID of the group reservation
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmitGroupPreOrderRequest'
+      responses:
+        '200':
+          description: Group pre-order submitted successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  description: Enriched dishes data
+        '400':
+          description: Invalid request - missing parameters or validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /guest/groups/{groupReservationId}/status:
+    get:
+      tags:
+        - Group Reservations
+      summary: Get group reservation status
+      description: Retrieves the current status of a group reservation
+      operationId: getGroupReservationStatus
+      parameters:
+        - name: groupReservationId
+          in: path
+          required: true
+          description: The ID of the group reservation
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Group reservation status retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupReservationStatusResponse'
+        '400':
+          description: Invalid request - missing groupReservationId
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Group reservation not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /guest/invites/{token}:
+    get:
+      tags:
+        - Group Reservations
+      summary: Get group reservation by invite token
+      description: Retrieves group reservation details using an invite token
+      operationId: getGroupReservationByToken
+      parameters:
+        - name: token
+          in: path
+          required: true
+          description: The invite token for the group reservation
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Group reservation details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetGroupReservationResponse'
+        '400':
+          description: Invalid request - missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Reservation not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /guest/groups/{groupReservationId}/sessions:
+    get:
+      tags:
+        - Guest Sessions
+      summary: Get all sessions for group reservation
+      description: Retrieves all guest sessions for a group reservation
+      operationId: getAllSessionsForGroup
+      parameters:
+        - name: groupReservationId
+          in: path
+          required: true
+          description: The ID of the group reservation
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Sessions retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAllSessionsResponse'
+        '400':
+          description: Invalid request - missing groupReservationId
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Group reservation not found or GroupId is required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /guest/sessions/{guestSessionId}/submit:
+    post:
+      tags:
+        - Guest Sessions
+      summary: Submit guest cart
+      description: Submits the cart for a guest session
+      operationId: submitGuestCart
+      parameters:
+        - name: guestSessionId
+          in: path
+          required: true
+          description: The ID of the guest session
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Cart submitted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid request or validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: GroupId is required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Group reservation expired, already submitted, or guest session already submitted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /guest/sessions/{guestSessionId}/menu:
+    get:
+      tags:
+        - Guest Sessions
+      summary: Get guest session menu
+      description: Retrieves the menu available for a guest session
+      operationId: getGuestSessionMenu
+      parameters:
+        - name: guestSessionId
+          in: path
+          required: true
+          description: The ID of the guest session
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Menu retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DishResponse'
+        '400':
+          description: Invalid request - missing guestSessionId
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Missing or invalid guest session token in Authorization header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Group reservation or reservation not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /reservations/{reservationId}/invite-token:
+    get:
+      tags:
+        - Group Reservations
+      summary: Get invite token for group reservation
+      description: Retrieves the invite token for a group reservation
+      operationId: getInviteToken
+      parameters:
+        - name: reservationId
+          in: path
+          required: true
+          description: The ID of the reservation
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Invite token retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetGroupInviteTokenResponse'
+        '400':
+          description: Invalid request or validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Reservation not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /guest/groups/{groupReservationId}/sessions/{guestSessionId}:
+    delete:
+      tags:
+        - Guest Sessions
+      summary: Delete guest session
+      description: Deletes a guest session from a group reservation
+      operationId: deleteGuestSession
+      parameters:
+        - name: groupReservationId
+          in: path
+          required: true
+          description: The ID of the group reservation
+          schema:
+            type: string
+        - name: guestSessionId
+          in: path
+          required: true
+          description: The ID of the guest session to delete
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Guest session deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Updated snapshot of the group reservation
+        '400':
+          description: Invalid request - missing required path parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Group reservation or guest session not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /reservations/{reservationId}/guest-session-id:
+    get:
+      tags:
+        - Guest Sessions
+      summary: Get owner's guest session ID
+      description: Retrieves the guest session ID for the reservation owner
+      operationId: getOwnerSessionId
+      parameters:
+        - name: reservationId
+          in: path
+          required: true
+          description: The ID of the reservation
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Owner session ID retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOwnerSessionIdResponse'
+        '400':
+          description: Invalid request or validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Reservation not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /guest/groups/{groupReservationId}/sessions/{guestSessionId}/bill-type:
+    patch:
+      tags:
+        - Guest Sessions
+      summary: Set who pays for a guest (owner only)
+      description: >-
+        Switches a guest between the owner's shared bill (Shared) and paying for their own
+        order (Individual). The owner's own session is always on the shared bill.
+        Not allowed after the group pre-order has been submitted.
+      operationId: setGuestBillType
+      parameters:
+        - name: groupReservationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: guestSessionId
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetBillTypeRequest'
+      responses:
+        '200':
+          description: Updated snapshot of the group reservation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAllSessionsResponse'
+        '400':
+          description: Invalid request, owner session, or session from another group
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Caller is not the reservation owner
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Group reservation, reservation or guest session not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Group pre-order already submitted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /guest/sessions/{guestSessionId}/pay-myself:
+    post:
+      tags:
+        - Guest Sessions
+      summary: Guest chooses to pay for their own order
+      description: >-
+        Moves the guest's order off the owner's shared bill (Shared -> Individual).
+        A guest cannot put their order back onto the owner's bill; only the owner can.
+        Authorized with the guest session token.
+      operationId: payOwnOrder
+      parameters:
+        - name: guestSessionId
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Bill type updated (or already Individual)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Invalid guest session token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Guest session not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Group pre-order already submitted or expired
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Bearer token authentication with JWT
+
+  schemas:
+    UpdateGuestSessionDishRequest:
+      type: object
+      required:
+        - dishId
+        - quantity
+      properties:
+        dishId:
+          type: string
+          description: The ID of the dish to add or remove
+          example: dish-123
+        quantity:
+          type: integer
+          description: The quantity of the dish (must be greater than 0)
+          example: 2
+          minimum: 1
+
+    CreateGuestSessionRequest:
+      type: object
+      required:
+        - groupReservationId
+        - guestName
+      properties:
+        groupReservationId:
+          type: string
+          description: The ID of the group reservation
+          example: group-res-123
+        guestName:
+          type: string
+          description: The name of the guest
+          example: John Doe
+
+    CreateGuestSessionResponse:
+      type: object
+      properties:
+        sessionToken:
+          type: string
+          description: The authentication token for the guest session
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+    SubmitGroupPreOrderRequest:
+      type: object
+      required:
+        - reservationId
+      properties:
+        reservationId:
+          type: string
+          description: The ID of the reservation (owner of the group)
+          example: res-123
+
+    SetBillTypeRequest:
+      type: object
+      required:
+        - billType
+      properties:
+        billType:
+          $ref: '#/components/schemas/BillType'
+
+    BillType:
+      type: string
+      enum:
+        - Individual
+        - Shared
+      description: Individual - the guest pays for their own order; Shared - the reservation owner pays
+      example: Shared
+
+    GroupReservationStatusResponse:
+      type: object
+      properties:
+        currentParticipants:
+          type: integer
+          description: Current number of participants
+          example: 3
+        maxCapacity:
+          type: integer
+          description: Maximum capacity for the group
+          example: 8
+        status:
+          type: string
+          enum:
+            - Active
+            - Submitted
+            - Expired
+            - Cancelled
+          description: Current status of the group reservation
+          example: Active
+
+    GetGroupReservationResponse:
+      type: object
+      properties:
+        groupReservationId:
+          type: string
+          description: The ID of the group reservation
+          example: group-res-123
+        locationId:
+          type: string
+          description: The ID of the location
+          example: loc-456
+        restaurantName:
+          type: string
+          description: Name of the restaurant
+          example: The Italian Corner
+        locationAddress:
+          type: string
+          description: Address of the location
+          example: 123 Main St, New York, NY
+        startTime:
+          type: string
+          format: date-time
+          description: Reservation start time
+          example: 2024-12-20T19:00:00Z
+        endTime:
+          type: string
+          format: date-time
+          description: Reservation end time
+          example: 2024-12-20T21:00:00Z
+        maxGuestCount:
+          type: integer
+          description: Maximum number of guests allowed
+          example: 8
+        tableNumber:
+          type: integer
+          description: Table number for the reservation
+          example: 5
+        inviterName:
+          type: string
+          description: Name of the person who invited the guests
+          example: Jane Doe
+
+    GetAllSessionsResponse:
+      type: object
+      properties:
+        participants:
+          type: array
+          items:
+            $ref: '#/components/schemas/Participant'
+        total:
+          type: number
+          format: decimal
+          description: Total cost for all participants
+          example: 125.50
+        sharedTotal:
+          type: number
+          format: decimal
+          description: Total of participants on the owner's shared bill (owner included)
+          example: 80.00
+        individualTotal:
+          type: number
+          format: decimal
+          description: Total of participants paying for their own orders
+          example: 45.50
+
+    Participant:
+      type: object
+      properties:
+        id:
+          type: string
+          nullable: true
+          description: Session ID of the participant
+          example: session-123
+        type:
+          type: string
+          enum:
+            - Owner
+            - Guest
+          description: Type of participant
+          example: Guest
+        name:
+          type: string
+          description: Name of the participant
+          example: John Doe
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItemResponse'
+          description: Items ordered by the participant
+        total:
+          type: number
+          format: decimal
+          description: Total cost for this participant
+          example: 45.50
+        isSubmitted:
+          type: boolean
+          description: Whether the participant has submitted their cart
+          example: true
+        billType:
+          $ref: '#/components/schemas/BillType'
+
+    OrderItemResponse:
+      type: object
+      properties:
+        dishId:
+          type: string
+          description: The ID of the dish
+          example: dish-123
+        dishName:
+          type: string
+          description: Name of the dish
+          example: Spaghetti Carbonara
+        quantity:
+          type: integer
+          description: Quantity ordered
+          example: 2
+        price:
+          type: number
+          format: decimal
+          description: Price per unit
+          example: 22.50
+        total:
+          type: number
+          format: decimal
+          description: Total price for this item
+          example: 45.00
+
+    GetGroupInviteTokenResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: The invite token for the group reservation
+          example: inv_token_123456789
+
+    GetOwnerSessionIdResponse:
+      type: object
+      properties:
+        guestSessionId:
+          type: string
+          description: The guest session ID of the reservation owner
+          example: session-owner-123
+
+    DishResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the dish
+          example: dish-123
+        name:
+          type: string
+          description: Name of the dish
+          example: Spaghetti Carbonara
+        description:
+          type: string
+          description: Description of the dish
+          example: Traditional Italian pasta with creamy sauce
+        dishType:
+          type: string
+          description: Type of dish
+          enum:
+            - Appetizer
+            - Main
+            - Side
+            - Dessert
+            - Beverage
+          example: Main
+        price:
+          type: number
+          format: decimal
+          description: Price of the dish
+          example: 22.50
+        weight:
+          type: string
+          description: Weight or portion size
+          example: 350g
+        calories:
+          type: string
+          description: Calorie count
+          example: 650
+        proteins:
+          type: string
+          description: Protein content in grams
+          example: 25g
+        fats:
+          type: string
+          description: Fat content in grams
+          example: 18g
+        carbohydrates:
+          type: string
+          description: Carbohydrate content in grams
+          example: 65g
+        vitamins:
+          type: string
+          description: Vitamin information
+          example: Vitamin C, Vitamin B12
+        imageUrl:
+          type: string
+          nullable: true
+          description: URL to the dish image
+          example: https://s3.amazonaws.com/images/spaghetti.jpg
+        state:
+          type: string
+          description: Current state of the dish
+          enum:
+            - Available
+            - Unavailable
+            - OutOfStock
+          example: Available
+
+    SuccessResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Success message
+          example: Dish added successfully.
+
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+          example: Missing guestSessionId in path parameters.
+        statusCode:
+          type: integer
+          description: HTTP status code
+          example: 400

@@ -1,0 +1,73 @@
+@use 'app/shared/styles/abstracts/colors' as color;
+
+.time-slot-container {
+  border: 1px solid color.$green-600;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background-color: transparent;
+  display: inline-block;
+  color: color.$green-600;
+  min-height: 24px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: color.$green-100;
+  }
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  padding: 4px 12px;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+}
+
+.body-bold {
+  font-size: 14px;
+  letter-spacing: 0;
+  font-weight: normal;
+  line-height: 24px;
+  color: color.$green-600;
+}
+
+.time-slot-container.disabled {
+  border-color: color.$neutral-200;
+  color: color.$neutral-400;
+  cursor: default;
+
+  &:hover {
+    background-color: transparent;
+  }
+
+  .body-bold {
+    color: color.$neutral-400;
+  }
+}
+
+:host(.compact) {
+  display: block;
+
+  .time-slot-container {
+    display: block;
+    padding: 0 4px;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .line {
+    justify-content: center;
+    margin: 2px 0;
+  }
+
+  .body-bold {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}

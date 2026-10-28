@@ -1,0 +1,50 @@
+:host {
+  display: contents;
+}
+
+.location-card {
+  border-radius: 1.5rem;
+  box-shadow: 0 0 0.625rem 0.25rem rgba(194, 194, 194, 0.5019607843);
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  aspect-ratio: 432/256;
+  overflow: hidden;
+  text-decoration: none;
+}
+.location-card .location-image {
+  width: 100%;
+  height: 54.7%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 0;
+}
+.location-card .location-text-block {
+  flex-grow: 1;
+  background-color: #ffffff;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  box-shadow: 0 0 0.625rem 0.25rem rgba(194, 194, 194, 0.5019607843);
+}
+.location-card .location-text-block .location-info,
+.location-card .location-text-block .tables-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.location-card .location-text-block .location-info .label,
+.location-card .location-text-block .location-info .value,
+.location-card .location-text-block .location-info .location-text,
+.location-card .location-text-block .tables-info .label,
+.location-card .location-text-block .tables-info .value,
+.location-card .location-text-block .tables-info .location-text {
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+}
+.location-card .location-text-block .tables-info {
+  justify-content: space-between;
+} /*# sourceMappingURL=location-card.component.css.map */

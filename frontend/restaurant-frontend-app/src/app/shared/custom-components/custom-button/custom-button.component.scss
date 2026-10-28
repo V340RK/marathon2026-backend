@@ -1,0 +1,18 @@
+:host {
+  display: inline-block;
+  max-width: 100%;
+  vertical-align: top;
+}
+
+:host(.custom-button-host--full-width) {
+  display: block;
+  width: 100%;
+}
+
+.custom-button {
+  width: auto;
+}
+
+.custom-button.button--full-width {
+  width: 100%;
+}

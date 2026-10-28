@@ -1,0 +1,35 @@
+<app-modal [title]='"You’re Invited!"' [width]="'520px'" [closeOnBackdrop]="false" (closed)="closed.emit()">
+    <p class="subtitle">
+        {{ invite()?.inviterName || 'Someone' }} invited you to pre-order for an upcoming reservation.
+    </p>
+
+    @if (!invite()) {
+    <div class="details-loading">Loading reservation details...</div>
+    } @else {
+    <div class="details">
+        <div class="row"><span class="label">Restaurant</span><span class="value">{{ invite()!.restaurantName }}</span>
+        </div>
+        <div class="row"><span class="label">Location</span><span class="value">{{ invite()!.locationAddress }}</span>
+        </div>
+        <div class="row"><span class="label">Date</span><span class="value">{{ invite()!.dateText }}</span></div>
+        <div class="row"><span class="label">Time</span><span class="value">{{ invite()!.timeText }}</span></div>
+        <div class="row"><span class="label">Guests</span><span class="value">{{ invite()!.guestsText }}</span></div>
+    </div>
+    }
+
+    <div class="field">
+        <label class="field-label" for="guestName">Enter Your Name</label>
+        <input id="guestName" type="text" placeholder="e.g. Jonson D." [(ngModel)]="name" (blur)="touched.set(true)"
+            (keydown.enter)="submit()" autocomplete="name" />
+        @if (touched() && !valid()) {
+        <div class="error">Name is required</div>
+        }
+    </div>
+
+    <div modal-actions class="actions">
+        <app-custom-button type="button" variant="primary" size="extra-large" fullWidth
+            [disabled]="!valid() || !invite()" (click)="submit()">
+            Browse Menu
+        </app-custom-button>
+    </div>
+</app-modal>

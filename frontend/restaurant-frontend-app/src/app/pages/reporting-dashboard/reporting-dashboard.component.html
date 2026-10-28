@@ -1,0 +1,161 @@
+<app-header></app-header>
+
+<div class="subheading">
+  <h3>Hello, {{ firstName }} {{ lastName }} ({{ role }})</h3>
+</div>
+
+<div class="select-container">
+  <div class="filters-wrapper">
+    <app-custom-select
+      class="custom-select-report"
+      [placeholder]="'Select report type'"
+      [options]="reportTypes"
+      [selectedOption]="selectedReportType"
+      (optionSelected)="onReportTypeSelected($event)"
+      [showIcon]="false"
+    >
+    </app-custom-select>
+
+    <div class="custom-select-period custom-select-report"
+          role="button"
+          (click)="toggleCalendar()"
+          (keydown.space)="toggleCalendar()"
+          (keydown.enter)="toggleCalendar()"
+          tabindex="0">
+      <div class="selected-value">
+        <span>{{ getPeriodPlaceholder() }}</span>
+        <img
+          class="icon"
+          [src]="calendarVisible ? 'assets/svg/arrow-up.svg' : 'assets/svg/arrow-down.svg'"
+          alt="Toggle Calendar"
+        />
+      </div>
+
+      @if (calendarVisible) {
+        <div class="calendar-popup" role="presentation" (click)="$event.stopPropagation()">
+          <div class="calendar-header">
+            <button (click)="previousMonth()">
+              <img [src]="'assets/svg/arrow-left.svg'" alt="Previous" class="icon" />
+            </button>
+            <span>{{ currentMonth.format('MMMM YYYY') }}</span>
+            <button (click)="nextMonth()">
+              <img [src]="'assets/svg/arrow-right.svg'" alt="Next" class="icon" />
+            </button>
+          </div>
+          <div class="calendar-weekdays">
+            @for (day of weekDays; track day) {
+              <div class="weekday">{{ day }}</div>
+            }
+          </div>
+          <div class="calendar-grid">
+            @for (day of getDaysInMonth(); track day) {
+              <div
+                class="day"
+                role="button"
+                tabindex="0"
+                [class.empty]="isInvalidDate(day)"
+                [class.in-range]="isInRange(day)"
+                [class.selected]="isSelected(day)"
+                (click)="!isInvalidDate(day) && onDayClicked(day)"
+                (keydown.enter)="!isInvalidDate(day) && onDayClicked(day)"
+              >
+                {{ isInvalidDate(day) ? '' : day.getDate() }}
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <app-custom-select
+      class="custom-select-report"
+      [placeholder]="'Select location'"
+      [options]="locationAddresses"
+      [selectedOption]="selectedLocationAddress"
+      (optionSelected)="onLocationSelected($event)"
+      [showIcon]="false"
+    >
+    </app-custom-select>
+  </div>
+  <app-custom-button class="btn-generate" (click)="genetateReportRequest()">
+    Generate Report
+  </app-custom-button>
+</div>
+@if (reportData.length > 0 && selectedReportType === 'Staff performance') {
+  <h2 class="report-heading">Report</h2>
+  <div class="report-table-wrapper">
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th>Location</th>
+          <th>Waiter</th>
+          <th>Waiter's Email</th>
+          <th class="no-wrap">Report Period Start</th>
+          <th class="no-wrap">Report Period End</th>
+          <th>Waiter Working Hours</th>
+          <th>Waiter Orders Processed</th>
+          <th>Delta of Waiter Orders</th>
+          <th>Average Service Feedback</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of reportData; track row.waiterEmail) {
+          <tr>
+            <td>{{ row.locationName }}</td>
+            <td>{{ row.waiterName }}</td>
+            <td>{{ row.waiterEmail }}</td>
+            <td>{{ row.startDate | date: 'MMM d, y' }}</td>
+            <td>{{ row.endDate | date: 'MMM d, y' }}</td>
+            <td>{{ row.workingHours }}</td>
+            <td>{{ row.totalOrders }}</td>
+            <td>{{ row.deltaTotalOrders }}</td>
+            <td>{{ row.avgServiceFeedback | number: '1.1-1' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+} @else if (reportData.length > 0 && selectedReportType === 'Sales') {
+  <h2 class="report-heading">Report</h2>
+  <div class="report-table-wrapper">
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th>Location</th>
+          <th class="no-wrap">Report Period Start</th>
+          <th class="no-wrap">Report Period End</th>
+          <th>Total Orders Processed</th>
+          <th>Revenue</th>
+          <th>Average Cuisine Feedback</th>
+          <th>Minimal Cuisine Feedback</th>
+          <th>Delta Average Feedback</th>
+          <th>Delta Revenue</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of reportData; track row.locationId) {
+          <tr>
+            <td>{{ row.locationName }}</td>
+            <td>{{ row.startDate | date: 'MMM d, y' }}</td>
+            <td>{{ row.endDate | date: 'MMM d, y' }}</td>
+            <td>{{ row.totalOrders }}</td>
+            <td>{{ row.revenue | currency: 'USD' }}</td>
+            <td>{{ row.avgCuisineFeedback | number: '1.1-1' }}</td>
+            <td>{{ row.minCuisineFeedback | number: '1.1-1' }}</td>
+            <td>{{ row.deltaAvgCuisineFeedback | number: '1.1-1' }}</td>
+            <td>{{ row.deltaRevenue | currency: 'USD' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}
+
+<app-custom-select
+  class="btn-download-options"
+  [placeholder]="'Download'"
+  [options]="downloadOptions"
+  (optionSelected)="onDownloadOptionSelected($event)"
+  [showIcon]="false"
+>
+</app-custom-select>

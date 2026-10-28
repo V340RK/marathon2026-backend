@@ -1,0 +1,194 @@
+<div>
+  <section class="booking">
+    <div class="booking-left">
+      <div class="booking-card">
+        <h2>Book a Table</h2>
+
+        <div class="input-list">
+          <div class="field">
+            <span class="field-label">Location</span>
+
+            <app-custom-select
+              [showIcon]="false"
+              placeholder="e.g. Rustaveli Avenue, 48"
+              [options]="locationOptions"
+              [selectedOption]="selectedFilter.location ?? undefined"
+              (optionSelected)="onLocationSelected($event)"
+            />
+          </div>
+
+          <div class="field">
+            <span class="field-label">Date</span>
+
+            <app-custom-select
+              [showIcon]="false"
+              placeholder="e.g. Aug 15, 2026"
+              trailingIconPath="assets/svg/calendar.svg"
+              [error]="dateError"
+              [options]="dateOptions"
+              (optionSelected)="onDateSelected($event)"
+            />
+          </div>
+
+          <div class="row">
+            <div class="field field-time">
+              <span class="field-label">Time</span>
+
+              <app-custom-select
+                [showIcon]="false"
+                placeholder="e.g. 10:00"
+                [error]="timeError"
+                [options]="timeOptions"
+                (optionSelected)="onTimeSelected($event)"
+              />
+            </div>
+
+            <div class="field field-guests">
+              <span class="field-label">Guests</span>
+
+              <app-custom-number
+                [showIcon]="false"
+                [minValue]="1"
+                [maxValue]="4"
+                (currentValueChange)="onGuestsFilterChange($event)"
+              />
+            </div>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class="button button--primary button--extra-large button--full-width"
+          [disabled]="isLoading"
+          (click)="onFilter()"
+        >
+          Find a Table
+        </button>
+      </div>
+
+      <div class="group-note">
+        <img
+          src="assets/svg/phone-call.svg"
+          alt=""
+          aria-hidden="true"
+          width="32"
+          height="32"
+        />
+
+        <p>
+          For groups larger than 4, please call us directly at +123 445 678 8990
+        </p>
+      </div>
+    </div>
+
+    <div class="booking-right">
+      @if (lastAppliedFilter === null) {
+        <div class="booking-image"></div>
+      } @else {
+        <div class="table-card-list-wrapper">
+          @if (isLoading && tables.length === 0) {
+            <div class="results-summary">
+              <span class="body-bold">Searching for tables…</span>
+              <span class="filter-summary">{{ filterSummary }}</span>
+            </div>
+
+            <div class="loading-state" role="status" aria-live="polite">
+              <span class="spinner" aria-hidden="true"></span>
+              <p>Looking for available tables. This may take a few seconds.</p>
+            </div>
+          } @else if (tables.length === 0) {
+            <div class="results-summary">
+              <span class="body-bold">No tables Available</span>
+              <span class="filter-summary">{{ filterSummary }}</span>
+            </div>
+
+            <div class="empty-state">
+              <img src="assets/svg/no-tables-avaliable.svg" alt="No tables available" />
+              <h3>No Tables Available</h3>
+              <p>Try adjusting your date, time, or number of guests to find available tables.</p>
+              <button
+                type="button"
+                class="button button--tertiary button--large show-all-link"
+                (click)="onShowAllSlots()"
+              >
+                Show all slots on {{ lastAppliedFilter.date }}
+              </button>
+            </div>
+          } @else {
+            <div class="results-summary">
+              <span class="body-bold">
+                {{ tables.length }}
+                {{ tables.length === 1 ? 'table' : 'tables' }} available
+              </span>
+              <span class="filter-summary">{{ filterSummary }}</span>
+            </div>
+          }
+
+          <div class="table-card-list">
+            @for (table of tables; track table.id) {
+              <app-table-card
+                [table]="table"
+                [location]="getLocationName(table)"
+                [date]="lastAppliedFilter.date!"
+                (timeSlotSelected)="onTimeSlotsClick(table, $event)"
+              />
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+</div>
+
+@if (showReviewModal && selectedTimeRange && lastAppliedFilter?.date) {
+  <app-reservation-review-modal
+    [locationName]="selectedLocationName"
+    [date]="lastAppliedFilter!.date!"
+    [timeRange]="selectedTimeRange"
+    [guests]="draftGuests"
+    [submitting]="isSubmittingReservation"
+    (closed)="onCloseReviewModal()"
+    (edit)="onEditReview()"
+    (confirmReservation)="onConfirmReview()"
+  />
+}
+
+@if (showEditDraftModal && selectedTable && selectedTimeRange && lastAppliedFilter?.date) {
+  <app-edit-reservation-modal
+    [locationName]="selectedLocationName"
+    [date]="lastAppliedFilter!.date!"
+    [table]="selectedTable"
+    [timeRange]="selectedTimeRange"
+    [guests]="draftGuests"
+    (closed)="onCloseEditDraftModal()"
+    (saveChanges)="onSaveDraft($event)"
+  />
+}
+
+@if (showReservationConfirmed && reservation) {
+  <app-reservation-confirmed
+    [reservation]="reservation"
+    (closed)="onCloseReservationConfirmed()"
+    (editReservation)="onEditReservation()"
+    (cancelReservation)="onCancelReservation()"
+  />
+}
+
+@if (showInviteModal && reservation) {
+  <app-reservation-invite-modal
+    [reservation]="reservation"
+    (closed)="onCloseInviteModal()"
+  />
+}
+
+@if (showEditReservationModal) {
+  <app-make-reservation
+    title="Edit Reservation"
+    [table]="selectedTable!"
+    [locationName]="selectedLocationName"
+    [guests]="reservation?.guestCount || 1"
+    [selectedTimeRange]="selectedTimeRange!"
+    (closeModal)="onCloseEditReservationModal()"
+    (makeReservation)="onSubmitEditReservation($event.timeRange, $event.guests)"
+  />
+}

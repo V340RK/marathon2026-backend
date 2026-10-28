@@ -1,0 +1,31 @@
+<div
+    class="dish-card"
+    role="button"
+    [tabindex]="isUnavailable() ? -1 : 0"
+    [class.unavailable]="isUnavailable()"
+    [style.max-width]="maxWidth() || null"
+    (click)="onCardClicked()"
+    (keydown.space)="onCardClicked()"
+    (keydown.enter)="onCardClicked()"
+  >
+    @if (isUnavailable()) {
+      <div class="status-badge">{{ dishStateLabel() }}</div>
+    }
+    <img [src]="dish().imageUrl" alt="{{ dish().name }}" class="dish-image" />
+    <div class="dish-info">
+      <div class="dish-heading">
+        <div class="dish-name">{{ dish().name }}</div>
+        <div class="dish-meta">
+          <span class="dish-price">{{ dish().price | currency: '$' }}</span>
+          <span class="dish-weight">{{ dish().weight }}</span>
+        </div>
+      </div>
+      @if (preOrderEnabled()) {
+        <app-custom-button size="small" fullWidth [disabled]="isUnavailable()" (click)="preOrderClicked.emit()">
+          Pre-Order
+        </app-custom-button>
+      }
+    </div>
+    <ng-content select="[dish-footer]"></ng-content>
+  </div>
+

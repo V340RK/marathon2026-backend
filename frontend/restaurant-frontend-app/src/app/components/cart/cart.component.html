@@ -1,0 +1,142 @@
+<div
+  class="modal-backdrop"
+  tabindex="0"
+  role="button"
+  aria-label="Close cart"
+  (click)="closeCart()"
+  (keydown.enter)="closeCart()"
+  (keydown.space)="closeCart(); $event.preventDefault()"
+>
+  <div
+    class="cart"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="cart-title"
+    (click)="$event.stopPropagation()"
+    (keydown)="$event.stopPropagation()"
+  >
+    <div class="cart-header">
+      <h3 id="cart-title">Cart</h3>
+
+      <button
+        type="button"
+        class="icon-button icon-button--small cart-close"
+        aria-label="Close cart"
+        (click)="closeCart()"
+      >
+        <img
+          src="assets/svg/close.svg"
+          alt=""
+          aria-hidden="true"
+        />
+      </button>
+    </div>
+
+    @if (unsubmittedOrders().length > 0) {
+      <div class="orders-list">
+        <div class="list-header">
+          <h3>Not submitted pre-orders</h3>
+
+          <span class="body">
+            You have not submitted pre-orders
+          </span>
+        </div>
+
+        @for (
+            item of unsubmittedOrders();
+          track item.orderId
+          ) {
+          <app-not-submitted-order
+            [order]="item"
+            (submitted)="submitOrder($event)"
+            (removeDish)="
+              removeDishFromOrder(item.orderId, $event)
+            "
+            (addDish)="addDishToOrder(item.orderId)"
+            (updateQuantity)="
+              updateDishQuantity(
+                item.orderId,
+                $event.itemId,
+                $event.quantity
+              )
+            "
+          />
+        }
+      </div>
+    }
+
+    @if (submittedOrders().length > 0) {
+      <div class="orders-list">
+        <div class="list-header">
+          <h3>Submitted pre-orders</h3>
+
+          <span class="body">
+            You can modify or cancel your pre-orders up to
+            30 minutes before your reserved table time.
+          </span>
+        </div>
+
+        <div>
+          @for (
+              item of submittedOrders();
+            track item.orderId
+            ) {
+            <app-submitted-order
+              [order]="item"
+              (canceled)="openCancelModal(item.orderId)"
+              (edited)="editOrder(item.orderId)"
+            />
+          }
+        </div>
+      </div>
+    }
+
+    @if (orders().length === 0) {
+      <div class="empty-cart">
+        <img
+          src="assets/img/empty-cart.png"
+          alt=""
+          aria-hidden="true"
+        />
+
+        <div class="empty-cart-content">
+          <div class="empty-cart-info">
+            <h3>Your cart is empty</h3>
+
+            <span class="body">
+              Looks like you haven’t added any dishes to
+              your cart yet.
+            </span>
+          </div>
+
+          <button
+            type="button"
+            class="button button--primary button--large"
+            (click)="goToReservations()"
+          >
+            Go To Reservations
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+@if (cancelOrderId(); as orderId) {
+  <app-cancel-order-modal
+    [orderId]="orderId"
+    (closed)="closeCancelModal()"
+    (canceled)="cancelOrder(orderId)"
+  />
+}
+
+@if (submitOrderId(); as orderId) {
+  @if (submittedOrder(); as order) {
+    <app-submit-order-modal
+      [order]="order"
+      (closed)="closeSubmitModal()"
+      (edited)="editOrderModal()"
+      (canceled)="openCancelModal(orderId)"
+    />
+  }
+}

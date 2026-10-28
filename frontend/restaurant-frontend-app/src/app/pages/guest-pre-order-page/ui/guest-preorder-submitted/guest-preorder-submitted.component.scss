@@ -1,0 +1,147 @@
+@use 'app/shared/styles/abstracts/colors' as color;
+
+.page {
+    min-height: calc(100vh - 66px);
+    display: grid;
+    place-items: center;
+    padding: 16px;
+    background: color.$bg-yellow;
+    box-sizing: border-box;
+}
+
+.card {
+    width: min(620px, 100%);
+    background: color.$neutral-0;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 0 5px rgba(color.$neutral-200, 0.7);
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.check {
+    display: flex;
+    justify-content: center;
+    margin: 0 0 16px;
+}
+
+h1 {
+    margin: 0 0 16px;
+    font-size: 32px;
+    line-height: 40px;
+    font-weight: 500;
+    color: color.$neutral-900;
+}
+
+.subtitle {
+    margin: 0;
+    color: color.$neutral-600;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.subtitle-2 {
+    color: color.$neutral-600;
+}
+
+.divider {
+    height: 1px;
+    margin: 20px 0;
+    background: color.$neutral-200;
+}
+
+.details {
+    display: grid;
+    gap: 8px;
+    text-align: left;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 100px minmax(0, 1fr);
+    gap: 16px;
+    align-items: center;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.label {
+    color: color.$neutral-900;
+    font-weight: 500;
+}
+
+.value {
+    color: color.$neutral-900;
+    overflow-wrap: anywhere;
+}
+
+h3 {
+    margin: 0 0 20px;
+    text-align: left;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    color: color.$neutral-900;
+}
+
+.items {
+    display: grid;
+    gap: 8px;
+    text-align: left;
+}
+
+.item-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.item-title {
+    color: color.$neutral-600;
+}
+
+.item-price {
+    color: color.$neutral-900;
+    font-weight: 600;
+}
+
+.total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 24px 0;
+    text-align: left;
+}
+
+.total-label {
+    color: color.$neutral-900;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+}
+
+.total-value {
+    color: color.$green-600;
+    font-size: 20px;
+    line-height: 32px;
+    font-weight: 600;
+}
+
+@media (max-width: 480px) {
+    .page {
+        min-height: calc(100vh - 58px);
+        padding: 12px;
+    }
+
+    .card {
+        padding: 24px 16px;
+        border-radius: 16px;
+    }
+
+    h1 {
+        font-size: 26px;
+        line-height: 36px;
+    }
+}

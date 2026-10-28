@@ -1,0 +1,88 @@
+@use 'app/shared/styles/abstracts/colors' as color;
+
+// Design: 32px between title block, details, field and button; subtitle sits right under the title.
+:host ::ng-deep .modal-backdrop .modal-card {
+  gap: 0;
+}
+
+:host ::ng-deep .modal-backdrop .modal-body {
+  gap: 32px;
+}
+
+:host ::ng-deep .modal-backdrop .modal-actions {
+  margin-top: 32px;
+}
+
+.subtitle {
+  margin: 0;
+  color: color.$neutral-900;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.details {
+  display: grid;
+  gap: 8px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 16px;
+  align-items: center;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.label {
+  color: color.$neutral-900;
+  font-weight: 500;
+}
+
+.value {
+  color: color.$neutral-900;
+}
+
+.details-loading {
+  color: color.$neutral-400;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.field {
+  display: grid;
+  gap: 4px;
+}
+
+.field-label {
+  color: color.$neutral-900;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+input {
+  box-sizing: border-box;
+  height: 44px;
+  padding: 0 16px;
+  border: 1px solid color.$neutral-200;
+  border-radius: 8px;
+  background: color.$neutral-0;
+  color: color.$neutral-900;
+  font-size: 14px;
+  line-height: 24px;
+
+  &::placeholder {
+    color: color.$neutral-400;
+  }
+}
+
+.error {
+  margin: 0;
+  color: color.$red-400;
+  font-size: 12px;
+}
+
+.actions {
+  width: 100%;
+}

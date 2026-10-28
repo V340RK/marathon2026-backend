@@ -1,0 +1,57 @@
+<app-modal title="Reservation Confirmed" (closed)="onClose()">
+  <dl class="info">
+    <div class="info-row">
+      <dt>Location</dt>
+      <dd>{{ reservation().locationAddress }}</dd>
+    </div>
+    <div class="info-row">
+      <dt>Date</dt>
+      <dd>{{ reservation().startTime | date: 'MMM d, y' }}</dd>
+    </div>
+    <div class="info-row">
+      <dt>Time</dt>
+      <dd>
+        {{ reservation().startTime | date: 'HH:mm' }} - {{ reservation().endTime | date: 'HH:mm' }}
+      </dd>
+    </div>
+    <div class="info-row">
+      <dt>Guests</dt>
+      <dd>{{ guestsLabel() }}</dd>
+    </div>
+  </dl>
+
+  @if (showInviteField()) {
+    <div class="invite">
+      <hr class="divider" />
+      <div class="invite-field">
+        <label class="invite-label" for="invite-link-input">Invite Link</label>
+        <div class="invite-input">
+          <input
+            id="invite-link-input"
+            type="text"
+            readonly
+            [placeholder]="invitePlaceholder()"
+            [value]="inviteLink() ?? ''"
+          />
+          <button
+            type="button"
+            class="icon-button icon-button--small"
+            aria-label="Copy invite link"
+            [disabled]="!inviteLink()"
+            (click)="onCopyLink()"
+          >
+            <img src="assets/svg/copy.svg" alt="" />
+          </button>
+        </div>
+        <p class="invite-hint">You are able to share this link for pre-order with your group.</p>
+      </div>
+    </div>
+  }
+
+  <div modal-actions class="actions">
+    <button type="button" class="button button--secondary button--full-width view-reservation-btn" (click)="onViewReservation()">
+      View Reservation
+    </button>
+    <button type="button" class="button button--primary button--full-width pre-order-btn" (click)="onMakePreOrder()">Make Pre-Order</button>
+  </div>
+</app-modal>

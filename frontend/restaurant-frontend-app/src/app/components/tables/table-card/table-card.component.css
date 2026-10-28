@@ -1,0 +1,66 @@
+.table-card {
+  display: flex;
+  border-radius: 24px;
+  box-shadow: 0 0 20px rgba(194, 194, 194, 0.5);
+  background: #ffffff;
+  max-width: 664px;
+  min-height: 300px;
+  margin: 0 auto;
+}
+
+.image-wrapper {
+  background-image: url('/assets/img/table-card-image.jpg');
+  background-size: cover;
+  background-position: center;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  min-width: 200px;
+}
+
+.card-content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.time-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.show-all-button {
+  display: flex;
+  align-items: center;
+  border: 1px solid #00ad0c;
+  background: transparent;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.show-all-button:hover {
+  background-color: #e9ffea;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+}
+
+.body-bold {
+  font-size: 14px;
+  letter-spacing: 0;
+  font-weight: 500;
+  line-height: 24px;
+} /*# sourceMappingURL=table-card.component.css.map */

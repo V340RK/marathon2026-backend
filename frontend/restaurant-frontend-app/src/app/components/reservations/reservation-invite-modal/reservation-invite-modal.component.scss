@@ -1,0 +1,99 @@
+@use 'app/shared/styles/abstracts/colors' as color;
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 24px;
+  color: color.$neutral-900;
+}
+
+.info-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  dt {
+    flex-shrink: 0;
+    width: 80px;
+    font-weight: 500;
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 400;
+  }
+}
+
+.invite {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.divider {
+  width: 100%;
+  margin: 0;
+  border: none;
+  border-top: 1px solid color.$neutral-100;
+}
+
+.invite-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.invite-label {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  color: color.$neutral-900;
+}
+
+.invite-input {
+  box-sizing: border-box;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  height: 44px;
+  padding: 0 16px;
+  background: rgba(color.$green-100, 0.6);
+  border: 1px solid color.$green-150;
+  border-radius: 8px;
+
+  input {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    font: inherit;
+    font-size: 14px;
+    line-height: 24px;
+    color: color.$neutral-900;
+    text-overflow: ellipsis;
+    background: none;
+    border: none;
+    outline: none;
+  }
+}
+
+
+.invite-hint {
+  margin: 0;
+  font-size: 12px;
+  line-height: 16px;
+  color: color.$neutral-600;
+
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  min-height: 56px;
+}
+
+

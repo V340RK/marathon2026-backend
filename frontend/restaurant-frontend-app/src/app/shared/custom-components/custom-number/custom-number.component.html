@@ -1,0 +1,58 @@
+<div class="custom-number">
+  @if (
+    (showIcon() && iconPath()) ||
+    placeholder()
+    ) {
+    <div class="number-text">
+      @if (showIcon() && iconPath()) {
+        <img
+          class="icon"
+          [src]="iconPath()"
+          alt=""
+          aria-hidden="true"
+        />
+      }
+
+      @if (placeholder()) {
+        <span>{{ placeholder() }}</span>
+      }
+    </div>
+  }
+
+  <div class="counter">
+    <button
+      type="button"
+      class="icon-button icon-button--outlined"
+      aria-label="Decrease value"
+      [disabled]="!canGoDown()"
+      (click)="decrement()"
+    >
+      <img
+        src="assets/svg/minus-green.svg"
+        alt=""
+        aria-hidden="true"
+      />
+    </button>
+
+    <span
+      class="value"
+      aria-live="polite"
+    >
+      {{ currentValue() }}
+    </span>
+
+    <button
+      type="button"
+      class="icon-button icon-button--outlined"
+      aria-label="Increase value"
+      [disabled]="!canGoUp()"
+      (click)="increment()"
+    >
+      <img
+        src="assets/svg/plus-green.svg"
+        alt=""
+        aria-hidden="true"
+      />
+    </button>
+  </div>
+</div>

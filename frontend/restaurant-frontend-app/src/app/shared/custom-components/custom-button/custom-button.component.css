@@ -1,0 +1,30 @@
+:host {
+  width: 100%;
+}
+
+.custom-button {
+  cursor: pointer;
+  background-color: #00ad0c;
+  width: 100%;
+  height: 3.5rem;
+  color: #ffffff;
+  border: none;
+  display: flex;
+  justify-content: center;
+  border-radius: 0.5rem;
+  align-items: center;
+}
+.custom-button:disabled {
+  background-color: #898989;
+  cursor: not-allowed;
+}
+
+.btm-cancel-confirmed {
+  background-color: #ffffff;
+  color: #00ad0c;
+  border: 1px solid #00ad0c;
+}
+
+.btn-reservation-confirmed {
+  height: 2.5rem;
+} /*# sourceMappingURL=custom-button.component.css.map */

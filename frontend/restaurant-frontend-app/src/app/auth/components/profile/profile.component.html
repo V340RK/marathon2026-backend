@@ -1,0 +1,51 @@
+<div class="subheading">
+  <h3>My Profile</h3>
+</div>
+
+<main class="profile-wrapper">
+  <div class="sidebar" role="tablist" aria-label="Profile sections">
+    <button
+      id="general-information-tab"
+      type="button"
+      role="tab"
+      class="button button--tertiary button--extra-large profile-tab"
+      aria-controls="general-information-panel"
+      [class.active]="selectedTab() === 'info'"
+      [attr.aria-selected]="selectedTab() === 'info'"
+      (click)="selectTab('info')"
+    >
+      General information
+    </button>
+
+    <button
+      id="change-password-tab"
+      type="button"
+      role="tab"
+      class="button button--tertiary button--extra-large profile-tab"
+      aria-controls="change-password-panel"
+      [class.active]="selectedTab() === 'password'"
+      [attr.aria-selected]="selectedTab() === 'password'"
+      (click)="selectTab('password')"
+    >
+      Change Password
+    </button>
+  </div>
+
+  <section class="profile-content">
+    <app-general-user-info
+      id="general-information-panel"
+      role="tabpanel"
+      aria-labelledby="general-information-tab"
+      [hidden]="selectedTab() !== 'info'"
+      [attr.aria-hidden]="selectedTab() !== 'info'"
+    />
+
+    <app-change-password
+      id="change-password-panel"
+      role="tabpanel"
+      aria-labelledby="change-password-tab"
+      [hidden]="selectedTab() !== 'password'"
+      [attr.aria-hidden]="selectedTab() !== 'password'"
+    />
+  </section>
+</main>

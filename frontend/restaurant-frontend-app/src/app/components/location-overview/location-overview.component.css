@@ -1,0 +1,315 @@
+.location-container {
+  padding: 2rem 2.5rem;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+}
+
+.location-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 6rem;
+  margin-bottom: 6rem;
+}
+
+.location-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  -webkit-box-orient: vertical;
+}
+
+.restaurant-image {
+  width: 65%;
+  border-radius: 10px;
+  max-height: 600px;
+}
+
+.page-navigation {
+  margin-bottom: 24px;
+}
+
+.page-navigation span {
+  margin-right: 12px;
+}
+
+.page-navigation span:last-child {
+  margin: 0px;
+}
+
+.page-navigation__location {
+  font-weight: 600;
+}
+
+.restaurant-info {
+  flex: 1 1 300px;
+}
+
+.restaurant-info h1 {
+  color: #00ad0c;
+  font-size: 3rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.restaurant-info p {
+  margin: 0.5rem 0;
+}
+
+.restaurant-info__address-rating {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.fa {
+  color: #00ad0c;
+  margin-right: 4px;
+}
+
+.book-btn {
+  margin-top: 2rem;
+  background-color: #00ad0c;
+  color: white;
+  padding: 1.1rem 1.5rem;
+  border: none;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.specialties-section h2,
+.reviews-section h2 {
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.specialties {
+  display: flex;
+  justify-content: space-between;
+  justify-content: center;
+  text-align: center;
+  gap: 1.8rem;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.dish-card {
+  background: #f8f8f8;
+  padding: 1.5rem 2rem;
+  border-radius: 10px;
+  text-align: center;
+  width: 250px;
+  /* height: 310px; */
+}
+
+.dish-card img {
+  max-height: 250px;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dish-name {
+  text-align: left;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.dish-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  color: #555;
+}
+
+.reviews-section__options {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.reviews-section__options-sorting span {
+  margin-right: 8px;
+}
+
+.reviews-section__options-sorting select {
+  border: 2px solid #00ad0c;
+  border-radius: 6px;
+  font-size: 16px;
+  padding: 2px 6px;
+}
+
+.review-tabs {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.tab {
+  cursor: pointer;
+  padding-right: 8px;
+  border-bottom: 2px solid #b4b4b4;
+}
+
+.review-tabs span:last-child {
+  padding-left: 8px;
+  padding-right: 0px;
+}
+
+.tab.active {
+  font-weight: bold;
+  color: #00ad0c;
+  border-bottom: 2px solid #00ad0c;
+}
+
+.reviews-section {
+  margin-top: 4.5rem;
+}
+
+.reviews-row {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-x: auto;
+  gap: 1.5rem;
+  padding-bottom: 1rem;
+  scroll-snap-type: x mandatory;
+}
+
+.review-card {
+  flex: 0 0 300px;
+  background: #f3f3f3;
+  padding: 1rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.review-avatar {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 0rem 1rem 0.5rem 0rem;
+}
+
+.review-content {
+  flex: 1;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.review-text {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  -webkit-box-orient: vertical;
+}
+
+.review-rating {
+  font-weight: 500;
+  color: #00ad0c;
+}
+
+.review-content__header {
+  display: flex;
+}
+
+.review-content__header-data {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.review-date {
+  font-size: 12px;
+}
+
+.star {
+  font-size: 24px;
+  color: lightgray;
+}
+
+.star.filled {
+  color: gold;
+}
+
+.pagination {
+  text-align: center;
+  max-width: 300px;
+}
+
+.pagination-arrow {
+  display: block;
+}
+
+.pagination-arrow.hidden {
+  overflow: hidden;
+}
+
+.pagination a,
+.pagination span {
+  display: inline-block;
+  width: 32px;
+  text-align: center;
+}
+
+.pagination a {
+  margin: 0px 8px;
+  padding: 1px 5px;
+  cursor: pointer;
+  display: inline-block;
+  width: 32px;
+  text-align: center;
+}
+
+.pagination a:first-child {
+  margin-left: 0px;
+}
+
+.pagination a:last-child {
+  margin-right: 0px;
+}
+
+.pagination a.active {
+  font-weight: bold;
+  border-bottom: 2px solid #00ad0c;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  max-width: 300px;
+  margin: 16px auto;
+}
+
+.pagination a,
+.pagination span {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+} /*# sourceMappingURL=location-overview.component.css.map */

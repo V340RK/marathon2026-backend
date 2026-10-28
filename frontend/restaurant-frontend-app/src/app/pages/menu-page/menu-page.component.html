@@ -1,0 +1,73 @@
+<div class="menu-container">
+  <div class="page-navigation">
+    <a routerLink="/main">Main page</a>
+    <span>></span>
+    <span class="page-navigation__location">Menu</span>
+  </div>
+
+  <section class="hero-section">
+    <app-main-cover-image
+      [darkened]="true"
+      src="assets/img/main-page-cover.jpg"
+      alt="Delicious Georgian food"
+    />
+
+    <div class="hero-text-block">
+      <p class="hero-subtitle">Green & Tasty Restaurants</p>
+      <h1 class="hero-title">Menu</h1>
+    </div>
+  </section>
+
+  <section class="info-section">
+    @if (isPreOrderEnabled) {
+      <div class="pre-order-notice">
+        You are making a pre-order for a reservation <strong>{{ preOrderReservationLabel }}</strong
+        >.
+      </div>
+    }
+  </section>
+
+  <section class="content-sections">
+    <div class="menu-section">
+      <div class="filter-sort-bar">
+        <div class="category-buttons">
+          @for (category of menuCategories; track category) {
+            <button
+              (click)="onCategorySelected(category)"
+              [class.active]="selectedCategory === category"
+            >
+              {{ menuCategoryLabels[category] }}
+            </button>
+          }
+        </div>
+
+        <div class="sort-dropdown">
+          <label for="sortSelect">Sort by:</label>
+          <select id="sortSelect" (change)="onSortChanged($event)">
+            @for (sort of sortOptions; track sort) {
+              <option [value]="sort" [selected]="sort === selectedSort">
+                {{ sortLabels[sort] }}
+              </option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="dish-cards">
+        @for (dish of filteredDishes; track dish) {
+          <app-dish-card
+            [dish]="dish"
+            [preOrderEnabled]="isPreOrderEnabled"
+            (dishClicked)="openModal(dish)"
+            (preOrderClicked)="addDishToCart(dish)"
+            maxWidth="288px"
+          ></app-dish-card>
+        }
+      </div>
+    </div>
+  </section>
+
+  @if (selectedDish) {
+    <app-dish-modal [dish]="selectedDish" (closed)="closeModal()"></app-dish-modal>
+  }
+</div>

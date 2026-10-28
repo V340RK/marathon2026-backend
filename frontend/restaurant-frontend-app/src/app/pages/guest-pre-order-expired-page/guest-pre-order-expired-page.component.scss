@@ -1,0 +1,15 @@
+@use 'app/shared/styles/abstracts/colors' as color;
+
+.page {
+    min-height: calc(100vh - 80px);
+    display: grid;
+    place-items: center;
+    padding: 24px;
+}
+
+.card {
+    width: min(640px, 100%);
+    background: color.$neutral-0;
+    border-radius: 16px;
+    padding: 24px;
+}

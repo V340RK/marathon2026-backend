@@ -1,0 +1,65 @@
+@use 'app/shared/styles/abstracts/colors' as color;
+
+:host {
+  display: block;
+}
+
+.custom-number {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  box-sizing: border-box;
+  min-width: 100px;
+  min-height: 44px;
+  padding: 5px 15px;
+
+  background: color.$neutral-0;
+  border: 1px solid color.$neutral-200;
+  border-radius: 8px;
+
+  user-select: none;
+
+  @media (max-width: 460px) {
+    padding: 5px 15px;
+  }
+}
+
+.number-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+
+  .icon {
+    flex: 0 0 auto;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.counter .icon-button {
+  width: 34px;
+  height: 32px;
+  padding: 0;
+}
+
+.value {
+  min-width: 16px;
+
+  span {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    min-width: 10px;
+    color: color.$neutral-900;
+  }
+}

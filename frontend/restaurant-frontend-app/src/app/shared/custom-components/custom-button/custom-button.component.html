@@ -1,0 +1,12 @@
+<button
+  class="button custom-button"
+  [ngClass]="[
+    'button--' + variant(),
+    'button--' + size()
+  ]"
+  [class.button--full-width]="fullWidth()"
+  [type]="type()"
+  [disabled]="disabled()"
+>
+  <ng-content />
+</button>

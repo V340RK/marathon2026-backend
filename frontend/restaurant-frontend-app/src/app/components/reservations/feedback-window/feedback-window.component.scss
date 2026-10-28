@@ -1,0 +1,251 @@
+@use 'app/shared/styles/abstracts/colors' as color;
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: all;
+}
+
+:host(.fade-out) {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.feedback-wrapper {
+  background-color: color.$neutral-0;
+  border: 1px solid color.$neutral-100;
+  border-radius: 1.5rem;
+  width: 31rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  z-index: 1000;
+
+  @media (max-width: 31rem) {
+    margin-top: 0;
+    width: 95%;
+    padding: 1rem;
+    border-radius: 0;
+  }
+
+  min-height: 38rem;
+  transition: height 0.3s ease;
+  overflow: hidden;
+}
+
+.header-feedback-wrapper {
+  height: 4rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .header-feedback {
+    height: 2.5rem;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.close-btn {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+  background-position: 100%;
+  margin-top: 0.5rem;
+  cursor: pointer;
+}
+
+.feedback-title {
+  color: color.$neutral-900;
+  font-family: 'Poppins', sans-serif;
+  line-height: 2.5rem;
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.subtitle {
+  color: color.$neutral-900;
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 1.5rem;
+}
+
+.feedback-tabs {
+  display: flex;
+  width: 28rem;
+  padding: 0;
+
+  @media (max-width: 31rem) {
+    width: 100%;
+  }
+}
+
+.tab {
+  width: 50%;
+  position: relative;
+  display: flex;
+  transition: all 0.3s ease;
+  h4 {
+    transition: color 0.3s;
+    font-size: 1.125rem;
+    line-height: 1.5rem;
+    width: 100%;
+    font-weight: 300;
+    padding-bottom: 0.5rem;
+    @media (max-width: 26rem) {
+      font-size: 0.87rem;
+      padding: 0;
+    }
+  }
+
+  .content {
+    transition: 0.5s ease;
+    pointer-events: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+    .tab .content {
+      min-height: 8rem;
+      transition: opacity 0.3s ease;
+    }
+  }
+
+  &.active {
+    h4{
+      border-bottom: 2px solid color.$green-600;
+      color: color.$green-600;
+    }
+    .content {
+      display: flex;
+      color: color.$green-600;
+      width: max-content;
+    }
+  }
+}
+
+.waiter-info {
+  height: 5.5rem;
+  display: flex;
+  list-style-type: none;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.waiter-name {
+  color: color.$neutral-900;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+}
+
+.waiter-info-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 2rem 0;
+}
+
+.waiter {
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  font-weight: 200;
+  display: flex;
+  align-items: center;
+}
+
+.waiter-mame {
+  font-weight: 400;
+}
+
+.role,
+.waiter-rating {
+  font-weight: 300;
+}
+
+.avatar {
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+
+.mini-star {
+  width: 1rem;
+  height: 1rem;
+}
+
+.left-tab {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2.5rem;
+}
+
+.right-tab {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  .rating {
+    margin-left: auto;
+    position: relative;
+  }
+}
+
+// .raiting-wrapper {
+//   margin-top: 2.5rem;
+//   display: flex;
+//   justify-content: space-between;
+// }
+.raiting-wrapper {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column; // stack vertically
+  gap: 2rem; // space between rating blocks
+  /* remove justify-content: space-between; */
+}
+
+.rating-block {
+  width: 100%; // make them expand full width inside container
+  opacity: 1;
+  position: relative;
+  height: auto;
+  transition: opacity 0.3s ease;
+}
+
+.hidden {
+  display: none !important;
+}
+
+textarea {
+  box-sizing: border-box;
+  color: color.$neutral-400;
+  width: 100%;
+  font-size: 0.75rem;
+  line-height: 1.5rem;
+  height: 100px;
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid color.$neutral-400;
+  border-radius: 5px;
+  margin-bottom: 2.5rem;
+}

@@ -1,0 +1,29 @@
+:host {
+  width: 41.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -2rem;
+}
+@media (max-width: 540px) {
+  :host {
+    display: none;
+  }
+}
+
+.image-container {
+  width: 417px;
+  margin: 0 auto;
+}
+
+.header-image {
+  margin-top: 7.5rem;
+  margin-bottom: 4.5rem;
+  font-size: 5rem;
+  height: 7.5rem;
+  font-weight: bold;
+}
+
+.header-green {
+  color: #00ad0c;
+} /*# sourceMappingURL=green-tasty-image.component.css.map */

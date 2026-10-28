@@ -1,0 +1,62 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-container {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 20px;
+  max-width: 420px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+.edit-reservation-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+.edit-reservation-container section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  gap: 1.25rem;
+}
+.row * {
+  flex: 1;
+}
+
+.time-select {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.time-select .input-title {
+  color: #232323;
+  font-weight: 600;
+} /*# sourceMappingURL=edit-reservation.component.css.map */

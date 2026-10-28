@@ -1,0 +1,296 @@
+<header class="header">
+  <a class="logo-container" routerLink="/main">
+    <img src="assets/svg/logo_vegeterian.svg" alt="vegetarian image" class="logo-image" />
+  </a>
+  @if (!isSubmittedGuestPreorder) {
+  <button class="mobile-menu-icon" (click)="toggleMobileMenu()">
+    <img src="../../../../assets/svg/menu.svg" alt="menu icon" />
+  </button>
+  <nav class="nav" [class.mobile-open]="isMobileMenuOpen()" role="presentation" (click)="closeMobileMenu()">
+    @if (user()) {
+      <div class="mobile-user-info mobile-only">
+        <div class="user-info">
+          <span class="body-bold">{{ user()?.firstName }} {{ user()?.lastName }}</span>
+          <p class="caption">{{ user()?.email }}</p>
+        </div>
+        <hr class="user-divider" />
+      </div>
+    }
+
+    @if (user()?.role === Roles.CUSTOMER || !user()) {
+      <a routerLink="/main" class="nav-link" [routerLinkActive]="'active'">Main page</a>
+      <a routerLink="/tables" class="nav-link" [routerLinkActive]="'active'">Book a Table</a>
+    }
+
+    @if (user()?.role === Roles.CUSTOMER) {
+      <a routerLink="/reservations" class="nav-link" [routerLinkActive]="'active'">Reservations</a>
+    }
+
+    @if (user()?.role === Roles.WAITER) {
+      <a routerLink="/waiter-reservations" class="nav-link" [routerLinkActive]="'active'"
+        >Reservations</a
+      >
+      <a routerLink="/menu" class="nav-link" [routerLinkActive]="'active'">Menu</a>
+    }
+
+    @if (user()?.role === Roles.ADMIN) {
+      <a routerLink="/reports" class="nav-link" [routerLinkActive]="'active'">Reports</a>
+    }
+
+    <div class="mobile-actions">
+      @if (!showCart()) {
+        <button class="mobile-close-btn">
+          <img src="../../../../assets/svg/close.svg" alt="close icon" />
+        </button>
+      }
+
+      @if ((authService.isAuthorised$ | async) === false) {
+        <a class="button button--secondary button--large" routerLink="/login">Sign In</a>
+      }
+
+      @if (user()?.role === Roles.CUSTOMER && !isGuestPreorderRoute) {
+        @if (!showCart()) {
+          <div>
+            <button type="button" class="icon-button icon-button--large" (click)="toggleCart()">
+              <img src="assets/svg/cart-empty.svg" alt="cart icon" class="action-icon" />
+              <h5> Cart</h5>
+            </button>
+          </div>
+        }
+
+        @if (showCart()) {
+          <div>
+            <app-cart (closeCartEvent)="toggleCart()"></app-cart>
+          </div>
+        }
+      }
+
+      @if (user()?.role === Roles.WAITER) {
+        <div class="notification-wrapper"
+              role="button"
+              tabindex="0"
+              (click)="toggleNotificationsDropdown()"
+              (keydown.enter)="toggleNotificationsDropdown()"
+              (keydown.space)="toggleNotificationsDropdown()">
+          <img src="assets/svg/bell-regular.svg" alt="bell icon" class="action-icon" />
+          <span class="notification-text">Notifications</span>
+          @if (unreadCount() > 0) {
+            <span class="notification-badge">{{ unreadCount() }}</span>
+          }
+          <div
+            class="notifications-dropdown"
+            role="presentation"
+            [class.show]="showNotificationsDropdown()"
+            (click)="$event.stopPropagation()"
+          >
+            <div class="dropdown-header">
+              <span>Notifications</span>
+              <button class="icon-button icon-button--small" (click)="closeNotificationsDropdown()">
+                <img src="../../../../assets/svg/close.svg" alt="close icon" />
+              </button>
+            </div>
+            @if (notifications().length === 0) {
+              <div class="no-notifications">No new notifications</div>
+            }
+            @if (notifications().length > 0) {
+              <ul>
+                @for (notification of notifications(); track notification.id) {
+                  <li
+                    class="message-item"
+                    role="button"
+                    tabindex="0"
+                    (click)="markNotificationAsRead(notification.id)"
+                    (keydown.space)="markNotificationAsRead(notification.id)"
+                    (keydown.enter)="markNotificationAsRead(notification.id)"
+                    [class.read]="notification.isRead"
+                  >
+                    <p class="notification-message">{{ notification.message }}</p>
+                    <span class="notification-time">{{
+                      notification.createdAt | date: 'short'
+                    }}</span>
+                  </li>
+                }
+              </ul>
+            }
+          </div>
+        </div>
+      }
+
+      @if (user()) {
+        <div class="user-menu">
+          <div class="menu-item">
+            <img [src]="'assets/svg/person.svg'" alt="profile icon" />
+            <a class="body-bold" [routerLink]="'/profile'">My Profile</a>
+          </div>
+
+          <div class="menu-item">
+            <img [src]="'assets/svg/logout.svg'" alt="logout icon" />
+            <button
+              type="button"
+              class="button button--tertiary button--small"
+              (click)="logout($event)"
+            >
+              Sign Out
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </nav>
+
+  <div class="actions">
+    @if ((authService.isAuthorised$ | async) === false) {
+      <a class="button button--secondary button--large" routerLink="/login">Sign In</a>
+    }
+
+    @if (user()?.role === Roles.CUSTOMER && !isGuestPreorderRoute) {
+      <button class="icon-button icon-button--small" type="button"  (click)="toggleCart()">
+        <img
+          [src]="'assets/svg/cart-empty.svg'"
+          alt="cart icon"
+          class="action-icon"
+        />
+      </button>
+    }
+
+    @if (user()?.role === Roles.WAITER) {
+      <div class="notification-wrapper"
+            role="button"
+            tabindex="0"
+            (click)="toggleNotificationsDropdown()"
+            (keydown.space)="toggleNotificationsDropdown()"
+            (keydown.enter)="toggleNotificationsDropdown()">
+        <img src="assets/svg/bell-regular.svg" alt="bell icon" class="action-icon" />
+        @if (unreadCount() > 0) {
+          <span class="notification-badge">{{ unreadCount() }}</span>
+        }
+        <div
+          class="notifications-dropdown fullscreen-notifications"
+          role="presentation"
+          [class.show]="showNotificationsDropdown()"
+          (click)="$event.stopPropagation()"
+        >
+          <div class="dropdown-header">
+            <span>Notifications</span>
+            <button class="icon-button icon-button--small" (click)="closeNotificationsDropdown()">
+              <img src="../../../../assets/svg/close.svg" alt="close icon" />
+            </button>
+          </div>
+          @if (notifications().length === 0) {
+            <div class="no-notifications">No new notifications</div>
+          }
+          @if (notifications().length > 0) {
+            <ul>
+              @for (notification of notifications(); track notification.id) {
+                <li
+                  class="message-item"
+                  tabindex="0"
+                  role="button"
+                  (click)="markNotificationAsRead(notification.id)"
+                  (keydown.space)="markNotificationAsRead(notification.id)"
+                  (keydown.enter)="markNotificationAsRead(notification.id)"
+                  [class.read]="notification.isRead"
+                >
+                  <p class="notification-message">{{ notification.message }}</p>
+                  <span class="notification-time">{{
+                    notification.createdAt | date: 'short'
+                  }}</span>
+                </li>
+              }
+            </ul>
+          }
+        </div>
+      </div>
+    }
+
+    @if (user()) {
+      <div
+        class="header-user-wrapper"
+        tabindex="0"
+        (mouseenter)="openDropdown()"
+        (focusin)="openDropdown()"
+        (mouseleave)="closeDropdown()"
+        (focusout)="onDropdownFocusOut($event)"
+      >
+        <img [src]="'assets/svg/user-profile.svg'" alt="user icon" class="action-icon" />
+
+        @if (showDropdown()) {
+          <div class="profile-dropdown">
+            <div class="user-info">
+              <span class="body-bold"
+                >{{ user()?.firstName }} {{ user()?.lastName }} ({{ user()?.role }})</span
+              >
+              <p class="caption">{{ user()?.email }}</p>
+            </div>
+
+            <hr />
+
+            <div class="dropdown-item">
+              <img [src]="'assets/svg/person.svg'" alt="profile icon" />
+              <a class="body-bold" [routerLink]="'/profile'">My Profile</a>
+            </div>
+            <div class="dropdown-item">
+              <img [src]="'assets/svg/logout.svg'" alt="logout icon" />
+              <button
+                type="button"
+                class="button button--tertiary button--small"
+                (click)="logout($event)"
+              >
+                Sign Out
+              </button>            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+  }
+</header>
+
+@if (showCart() && !isGuestPreorderRoute) {
+  <app-cart (closeCartEvent)="toggleCart()"></app-cart>
+}
+@if (showNotificationsDropdown()) {
+  <div class="mobile-notification-overlay"
+        role="button"
+        tabindex="0"
+        (click)="closeNotificationsDropdown()"
+        (keydown.space)="closeNotificationsDropdown()"
+        (keydown.enter)="closeNotificationsDropdown()">
+
+    <div class="mobile-notification-content" role="presentation" (click)="$event.stopPropagation()">
+      <div class="dropdown-header">
+        <span>Notifications</span>
+        <button class="icon-button icon-button--small"
+                (click)="closeNotificationsDropdown()"
+                (keydown.space)="closeNotificationsDropdown()"
+                (keydown.enter)="closeNotificationsDropdown()"
+        >
+          <img src="../../../../assets/svg/close.svg" alt="close icon" />
+        </button>
+      </div>
+
+      @if (notifications().length === 0) {
+        <div class="no-notifications">No new notifications</div>
+      }
+
+      @if (notifications().length > 0) {
+        <ul>
+          @for (notification of notifications(); track notification.id) {
+            <li
+              class="message-item"
+              role="button"
+              tabindex="0"
+              (click)="markNotificationAsRead(notification.id)"
+              (keydown.space)="markNotificationAsRead(notification.id)"
+              (keydown.enter)="markNotificationAsRead(notification.id)"
+              [class.read]="notification.isRead"
+            >
+              <p class="notification-message">{{ notification.message }}</p>
+              <span class="notification-time">{{ notification.createdAt | date: 'short' }}</span>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+  </div>
+}

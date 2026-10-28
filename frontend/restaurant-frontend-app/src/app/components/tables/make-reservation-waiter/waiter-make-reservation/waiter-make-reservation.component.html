@@ -1,0 +1,153 @@
+<div class="wrapper">
+  <div class="modal-backdrop"
+        role="presentation"
+        (click)="onClose()"
+        (keydown.escape)="onClose()">
+    <div class="modal-container" role="presentation" (click)="$event.stopPropagation()">
+      <div>
+        <div class="modal-header">
+          <h2 class="title">{{ title }}</h2>
+          <button class="close-btn" (click)="onClose()">
+            <img src="assets/svg/close.svg" alt="close button" />
+          </button>
+        </div>
+        <p class="subtitle">
+          <app-custom-select
+            [options]="locationAddresses"
+            [selectedOption]="selectedLocation"
+            [placeholder]="'Location'"
+            [iconPath]="'assets/svg/address.svg'"
+            (optionSelected)="onLocationChange($event)"
+          >
+          </app-custom-select>
+        </p>
+      </div>
+
+      <div class="customer-selection-container">
+        <div
+          class="option-card"
+          role="radio"
+          tabindex="0"
+          [class.selected]="reservationType === 'visitor'"
+          [attr.aria-checked]="reservationType === 'visitor'"
+          (click)="reservationType = 'visitor'"
+          (keydown.enter)="reservationType = 'visitor'"
+          (keydown.space)="reservationType = 'visitor'"
+        >
+          <div class="radio-button">
+            <div class="radio-inner" [class.checked]="reservationType === 'visitor'"></div>
+          </div>
+          <span class="option-label">Visitor</span>
+        </div>
+        <div
+          class="option-card existing-customer"
+          role="radio"
+          tabindex="0"
+          [class.selected]="reservationType === 'existingUser'"
+          [attr.aria-checked]="reservationType === 'existingUser'"
+          (click)="reservationType = 'existingUser'"
+          (keydown.enter)="reservationType = 'existingUser'"
+          (keydown.space)="reservationType = 'existingUser'"
+        >
+          <div class="radio-button">
+            <div class="radio-inner" [class.checked]="reservationType === 'existingUser'"></div>
+          </div>
+          <span class="option-label">Existing User</span>
+        </div>
+
+        <div class="search-input-section" [class.visible]="reservationType === 'existingUser'">
+          <label class="input-label" for="waiterExistingUserSearch">Customer`s Name</label>
+          <input
+            id="waiterExistingUserSearch"
+            type="text"
+            class="search-input"
+            placeholder="Search user by name or phone..."
+            [(ngModel)]="searchQuery"
+            (input)="searchQuery$.next(searchQuery)"
+          />
+          <p class="hint">e.g John Doe</p>
+          @if (searchedUsers.length > 0) {
+            <div class="user-results">
+              @for (user of searchedUsers; track user) {
+                <div
+                  class="user-item"
+                  role="button"
+                  tabindex="0"
+                  [class.selected]="selectedCustomerEmail === user.email"
+                  (click)="selectUser(user)"
+                  (keydown.enter)="selectUser(user)"
+                  (keydown)="selectUser(user)"
+                >
+                  <div class="user-info">
+                    <span class="user-name">{{ user.firstName }} {{ user.lastName }}</span>
+                    <span class="user-email">({{ user.email }})</span>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="reservation-details">
+        <div class="reservation-guests">
+          <app-custom-number
+            class="guests-filter"
+            [currentValue]="guests"
+            [iconPath]="'assets/svg/people-green.svg'"
+            [placeholder]="'Guests'"
+            [minValue]="1"
+            [maxValue]="selectedTable?.capacity || guests"
+            (currentValueChange)="onGuestsChange($event)"
+          />
+        </div>
+        <div class="reservation-time">
+          <div>
+            <h3>Time</h3>
+            <p class="subtitle">Please choose your preferred time from the dropdowns below</p>
+          </div>
+          <div class="time-selectors">
+            <div class="time-selector">
+              <p class="body-bold">From</p>
+              <app-custom-select
+                [selectedOption]="
+                  selectedTimeRange.start ? formatTime(selectedTimeRange.start) : ''
+                "
+                [iconPath]="'assets/svg/clock-green.svg'"
+                [placeholder]="'From'"
+                [options]="startTimeOptions"
+                (optionSelected)="onStartTimeChange($event)"
+              >
+              </app-custom-select>
+            </div>
+            <div class="time-selector">
+              <p class="body-bold">To</p>
+              <app-custom-select
+                [selectedOption]="selectedTimeRange.end ? formatTime(selectedTimeRange.end) : ''"
+                [iconPath]="'assets/svg/clock-green.svg'"
+                [placeholder]="'To'"
+                [options]="endTimeOptions"
+                (optionSelected)="onEndTimeChange($event)"
+              >
+              </app-custom-select>
+            </div>
+          </div>
+          <div class="table-container">
+            <app-custom-select
+              [options]="tableNames"
+              [selectedOption]="selectedTable ? 'Table ' + selectedTable.tableNumber : ''"
+              [placeholder]="'Table'"
+              [iconPath]="'assets/svg/table-green.svg'"
+              (optionSelected)="onTableChange($event)"
+            >
+            </app-custom-select>
+          </div>
+        </div>
+      </div>
+
+      <app-custom-button (click)="onMakeReservation()">
+        {{ title }}
+      </app-custom-button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,83 @@
+<div class="modal-backdrop"
+      tabindex="0"
+      role="button"
+      (click)="onClose()"
+      (keydown.enter)="onClose()"
+      (keydown.space)="onClose()">
+  <div class="modal-container" role="presentation" (click)="$event.stopPropagation()">
+    <div>
+      <div class="modal-header">
+        <h2 class="title">{{ title }}</h2>
+        <button class="close-btn" (click)="onClose()">
+          <img src="../../../assets/svg/close.svg" alt="close button" />
+        </button>
+      </div>
+
+      <p class="subtitle">
+        Reservation <strong> #{{ reservationId }} </strong>
+      </p>
+      <p class="subtitle">
+        Waiter <strong> {{ waiterName }} </strong>
+      </p>
+      <p class="subtitle">
+        Customer <strong> {{ customerName }} </strong>
+      </p>
+    </div>
+
+    <div class="order-details">
+      <div>
+        <h4>Dishes</h4>
+        <p class="subtitle">
+          You have added <strong> {{ orderItems.length }} dishes </strong>
+        </p>
+      </div>
+      <div class="dishes-list">
+        @for (item of orderItems; track item.dish.id) {
+          <app-dish-select-card
+            [dish]="item.dish"
+            [quantity]="item.quantity"
+            (quantityChanged)="onQuantityChanged(item.dish.id, $event)"
+            (remove)="onRemoveDish(item.dish.id)"
+          ></app-dish-select-card>
+        }
+      </div>
+      <form [formGroup]="dishNameForm">
+        <label for="dishName">
+          Dish Name
+          <input
+            type="text"
+            class="default-input"
+            id="dishName"
+            formControlName="dishName"
+            placeholder="Enter Dish Name"
+            (input)="onDishNameChange()"
+          />
+          <div class="hint">e.g. Fresh Strawberry Mint Salad</div>
+        </label>
+        @if (filteredDishes.length > 0) {
+          <div class="dish-suggestions">
+            @for (dish of filteredDishes; track dish.id) {
+              <p
+                role="button"
+                tabindex="0"
+                (click)="onDishSelected(dish)"
+                (keydown.enter)="onDishSelected(dish)"
+                (keydown.space)="onDishSelected(dish)"
+              >
+                {{ dish.name }}
+              </p>
+            }
+          </div>
+        }
+      </form>
+    </div>
+    <app-custom-button
+      type="submit"
+      class="btn-submit"
+      [disabled]="orderItems.length === 0"
+      (click)="onCreateOrder()"
+    >
+      Create an Order
+    </app-custom-button>
+  </div>
+</div>

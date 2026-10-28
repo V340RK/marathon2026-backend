@@ -1,0 +1,34 @@
+.time-slot-container {
+  border: 1px solid #00ad0c;
+  border-radius: 8px;
+  background-color: transparent;
+  display: inline-block;
+  color: #232323;
+  min-width: 180px;
+  min-height: 24px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.time-slot-container:hover {
+  background-color: #e9ffea;
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  margin: 4px 0;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+}
+
+.body-bold {
+  font-size: 14px;
+  letter-spacing: 0;
+  font-weight: normal;
+  line-height: 24px;
+} /*# sourceMappingURL=time-slot.component.css.map */

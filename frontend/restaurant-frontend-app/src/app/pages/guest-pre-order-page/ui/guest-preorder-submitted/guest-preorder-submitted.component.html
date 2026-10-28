@@ -1,0 +1,64 @@
+<div class="page">
+    <div class="card">
+        <div class="check">
+            <img src="assets/svg/check-image.svg" alt="" aria-hidden="true" />
+        </div>
+
+        <h1>Pre-Order Submitted!</h1>
+
+        <p class="subtitle">
+            Your selections have been added to {{ guestName() || 'guest' }}'s table.
+            <br />
+            <span class="subtitle-2">The restaurant will have everything ready for you.</span>
+        </p>
+
+        <div class="divider"></div>
+
+        <div class="details">
+            <div class="row"><span class="label">Restaurant</span><span class="value">{{ invite()?.RestaurantName || '-'
+                    }}</span></div>
+            <div class="row"><span class="label">Location</span><span class="value">{{ invite()?.LocationAddress || '-'
+                    }}</span></div>
+            <div class="row"><span class="label">Date</span><span class="value">{{ invite()?.StartTime ? (invite()!.StartTime | date: 'MMM dd, yyyy') : '-' }}</span>
+            </div>
+
+            <div class="row">
+                <span class="label">Time</span>
+                <span class="value">
+                    @if (invite()?.StartTime && invite()?.EndTime) {
+                    {{ invite()!.StartTime | date: 'HH:mm' }} - {{ invite()!.EndTime | date: 'HH:mm' }}
+                    } @else { - }
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="label">Guests</span>
+                <span class="value">
+                    @if (invite()?.MaxGuestCount) { {{ invite()!.MaxGuestCount }} people } @else { - }
+                </span>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3>Your items</h3>
+
+        <div class="items">
+            @for (it of items(); track it.dishId) {
+            <div class="item-row">
+                <span class="item-title">{{ it.title }} × {{ it.qty }}</span>
+                <span class="item-price">{{ it.price * it.qty | currency: '$' }}</span>
+            </div>
+            }
+        </div>
+
+        <div class="total">
+            <span class="total-label">Total</span>
+            <strong class="total-value">{{ total() | currency: '$' }}</strong>
+        </div>
+
+        <app-custom-button variant="secondary" fullWidth (click)="createNew.emit()">
+            Create New Pre-Order
+        </app-custom-button>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+<section class="hero-section">
+
+  <div class="hero-text-block">
+    <div class="hero-heading-texts">
+      <h1 class="hero-heading">Green by nature, Georgian by heart.</h1>
+      <p class="hero-tagline">Seasonal bowls • Vegan friendly • Tbilisi</p>
+    </div>
+
+    <div class="hero-cta-group">
+      <a routerLink="/tables" class="button button--primary button--extra-large">Book a table</a>
+      <a routerLink="/menu" class="button button--secondary button--extra-large">View Menu</a>
+    </div>
+  </div>
+
+  <div class="hero-image">
+    <img src="../../assets/img/main-page-cover.webp" alt="Delicious Georgian food" />
+  </div>
+</section>
+
+<section class="content-sections">
+  <!-- Most Popular Dishes -->
+  <div class="popular-dishes-section">
+    <h2 class="section-heading">Most Popular Dishes</h2>
+
+    <div class="dish-cards">
+      @for (dish of dishes; track dish) {
+        <a routerLink="/dish/{{ dish.id }}" routerLinkActive="router-link-active" class="dish-card">
+          <img [src]="dish.imageUrl" alt="{{ dish.name }}" class="dish-image" />
+          <div class="dish-info">
+            <div class="dish-name">{{ dish.name }}</div>
+            <div class="dish-meta">
+              <span class="dish-price">{{ dish.price | currency: '$' }}</span>
+              <span class="dish-weight">{{ dish.weight }}</span>
+            </div>
+          </div>
+        </a>
+      }
+    </div>
+  </div>
+
+  <!-- Locations -->
+  <div class="locations-section">
+    <h2 class="section-heading">Locations</h2>
+
+    <div class="location-cards">
+      @for (location of locations; track location) {
+        <app-location-card [location]="location" maxWidth="488px"></app-location-card>
+      }
+    </div>
+  </div>
+</section>
+<!-- </div> -->
+
+@if (showFeedbackModal) {
+  <app-feedback-window
+    [selectedReservation]="selectedReservationAsReservation || null"
+    [anonymousToken]="anonymousFeedbackToken"
+    [feedbackForUpdate]="feedbackForUpdate"
+    (closedFeedback)="showFeedbackModal = false"
+  ></app-feedback-window>
+}
+
+@if (showLoginModal()) {
+  <app-login-modal (closed)="closeLogin()" />
+}

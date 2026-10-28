@@ -1,0 +1,12 @@
+<div class="time-slot-container" [class.disabled]="disabled">
+  @if (showDate) {
+    <div class="line">
+      <img [src]="'/assets/svg/calendar-green.svg'" alt="calendar icon" class="icon" />
+      <span class="body-bold">{{ timeRange.start | date: 'MMM d, y' }}</span>
+    </div>
+  }
+
+  <div class="line">
+    <span class="body-bold">{{ label ?? formatTimeRange(timeRange.start) }}</span>
+  </div>
+</div>

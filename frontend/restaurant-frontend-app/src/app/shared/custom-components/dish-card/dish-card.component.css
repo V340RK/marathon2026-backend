@@ -1,0 +1,46 @@
+:host {
+  display: contents;
+}
+
+.dish-card {
+  border-radius: 1.5rem;
+  box-shadow: 0 0 0.625rem 0.25rem rgba(194, 194, 194, 0.5019607843);
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  aspect-ratio: 316/304;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+}
+.dish-card .dish-image {
+  width: 62%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+  box-shadow: 0 0 0.625rem 0.25rem rgba(194, 194, 194, 0.5019607843);
+}
+.dish-card .dish-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  margin-top: 1rem;
+}
+.dish-card .dish-info .dish-name {
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+}
+.dish-card .dish-info .dish-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 300;
+} /*# sourceMappingURL=dish-card.component.css.map */
